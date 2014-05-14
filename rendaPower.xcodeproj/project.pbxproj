@@ -2533,8 +2533,8 @@
 				INFOPLIST_FILE = rendaPower/Resources/Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/ooharayukio/renda/rendaPower/libs/cocos2dx/platform/third_party/ios/libraries,
-					/Users/ooharayukio/renda/rendaPower/libs/libwebsockets/ios/lib,
+					rendaPower/libs/cocos2dx/platform/third_party/ios/libraries,
+					rendaPower/libs/libwebsockets/ios/lib,
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",
@@ -2561,8 +2561,8 @@
 				INFOPLIST_FILE = rendaPower/Resources/Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/ooharayukio/renda/rendaPower/libs/cocos2dx/platform/third_party/ios/libraries,
-					/Users/ooharayukio/renda/rendaPower/libs/libwebsockets/ios/lib,
+					rendaPower/libs/cocos2dx/platform/third_party/ios/libraries,
+					rendaPower/libs/libwebsockets/ios/lib,
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",
