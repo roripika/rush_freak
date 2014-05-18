@@ -35,16 +35,36 @@ bool ShuttleScene::init()
         return false;
     }
     
+    this->m_PlanetSprite = CCSprite::create("base/planet.png");
+    this->m_RocketSprite = CCSprite::create("base/rocket.png");
+    
+    this->m_menu = CCMenu::create();
+    CCSprite* normalSprite = CCSprite::create("base/tap_button.png");
+    CCSprite* selectSprite = CCSprite::create("base/tap_button.png");
+    selectSprite->setColor(ccc3(0x7F, 0x7F, 0x7F));
+    CCMenuItemSprite * menuPush = CCMenuItemSprite::create(normalSprite, selectSprite);
+    menuPush->setTag(10000);
+    this->m_menu->addChild(menuPush);
+    
     // ask director the window size
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     // add "HelloWorld" splash screen"
-    CCSprite* pSprite = CCSprite::create("base/planet.png");
     
     // position the sprite on the center of the screen
-    pSprite->setPosition( ccp(size.width/2, size.height*0.75f) );
+    this->m_PlanetSprite->setPosition( ccp(this->m_PlanetSprite->getContentSize().width
+                                           , size.height*0.75f) );
     
     // add the sprite as a child to this layer
-    this->addChild(pSprite, 0);
+    this->addChild(this->m_PlanetSprite, 0);
+    this->addChild(this->m_RocketSprite, 10);
+    this->addChild(this->m_menu, 0);
+    
+    
+    //ボタンの位置
+    menuPush->setPosition(ccp(size.width -
+                              menuPush->getContentSize().width * 0.5f,
+                              menuPush->getContentSize().height * 0.5f));
+    this->m_menu->setPosition(0, 0);
     
     return true;
 }
