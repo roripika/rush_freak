@@ -16,6 +16,8 @@ class ShuttleScene : public cocos2d::CCLayer
 protected:
     cocos2d::CCSprite * m_PlanetSprite;
     cocos2d::CCSprite * m_RocketSprite;
+    
+    cocos2d::CCMenu * m_menu;
 public:
     static cocos2d::CCScene* scene();
     
