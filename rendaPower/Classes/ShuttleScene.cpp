@@ -13,6 +13,8 @@
 #define DEF_PRINTSTR_SPEED      ("Speed: %4d")
 #define DEF_PRINTSTR_POWER      ("Power: %4d")
 
+
+#define DEF_BG_HEIGHT   (4000)
 using namespace cocos2d;
 
 /**
@@ -27,6 +29,7 @@ ShuttleScene::ShuttleScene()
 ,m_menu(NULL)
 ,m_PlanetSprite(NULL)
 ,m_RocketSprite(NULL)
+,m_BackGroundLayer(NULL)
 {
     
 }
@@ -62,9 +65,24 @@ bool ShuttleScene::init()
     {
         return false;
     }
+    CCSize size = CCDirector::sharedDirector()->getWinSize();
+    
+    //背景
+    m_BackGroundLayer = CCLayer::create();
+    this->m_BackGroundLayer->setContentSize(CCSizeMake(size.width, DEF_BG_HEIGHT));
     
     this->m_PlanetSprite = CCSprite::create("base/planet.png");
     this->m_RocketSprite = CCSprite::create("base/rocket.png");
+    
+    this->m_BackGroundLayer->addChild(this->m_PlanetSprite, 0);
+    this->m_BackGroundLayer->addChild(this->m_RocketSprite, 10);
+    
+    
+    // position the sprite on the center of the screen
+    this->m_PlanetSprite->setPosition(
+                                      ccp(
+                                          size.width * 0.5f,
+                                        DEF_BG_HEIGHT- size.height * 0.5f) );
     
     this->m_menu = CCMenu::create();
     CCSprite* normalSprite = CCSprite::create("base/tap_button.png");
@@ -73,19 +91,8 @@ bool ShuttleScene::init()
     CCMenuItemSprite * menuPush = CCMenuItemSprite::create(normalSprite, selectSprite);
     menuPush->setTag(10000);
     this->m_menu->addChild(menuPush);
-    
-    // ask director the window size
-    CCSize size = CCDirector::sharedDirector()->getWinSize();
-    // add "HelloWorld" splash screen"
-    
-    // position the sprite on the center of the screen
-    this->m_PlanetSprite->setPosition( ccp(this->m_PlanetSprite->getContentSize().width
-                                           , size.height*0.75f) );
-    
     // add the sprite as a child to this layer
-    this->addChild(this->m_PlanetSprite, 0);
-    this->addChild(this->m_RocketSprite, 10);
-    this->addChild(this->m_menu, 0);
+    this->addChild(this->m_menu, 5000);
     
     //UIの初期位置設定
     char buff[100] = "";
@@ -134,7 +141,9 @@ bool ShuttleScene::init()
     this->m_menu->setPosition(0, 0);
     this->m_ReadyLabel->setPosition(ccp(size.width * 0.5f,size.height * 0.5f));
     
-    
+    //開始
+    shotCountup();
+
     return true;
 }
 
@@ -147,9 +156,14 @@ void ShuttleScene::settingShotSceneObject(SHOT_SECNE val)
     
     switch (val) {
         case SSHOT_INIT: //初期準備
+        {
             this->m_PlanetSprite->setPosition(ccp(size.width * 0.5f,size.height * 0.5f));
             this->m_ReadyLabel->setVisible(false);
+            this->m_BackGroundLayer->setPosition(
+                                                 ccp(this->m_BackGroundLayer->getPosition().x,
+                                                     DEF_BG_HEIGHT - size.height));
             break;
+        }
         case SSHOT_READY:
             this->m_ReadyLabel->setVisible(true);
             this->m_ReadyLabel->setString("Are you ready?");
@@ -162,4 +176,12 @@ void ShuttleScene::settingShotSceneObject(SHOT_SECNE val)
         default:
             break;
     }
+}
+/**
+ * シーンを切り替える
+ */
+void ShuttleScene::shotCountup()
+{
+    CCCallFunc * call = CCCallFunc::create(this, callfunc_selector(ShuttleScene::shotCountup));
+    this->runAction(CCSequence::create(call,NULL));
 }
