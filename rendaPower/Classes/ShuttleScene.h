@@ -19,6 +19,7 @@ class ShuttleScene : public cocos2d::CCLayer
 protected:
     cocos2d::CCSprite * m_PlanetSprite;
     cocos2d::CCSprite * m_RocketSprite;
+    cocos2d::CCLayer * m_BackGroundLayer;
     
     cocos2d::CCMenu * m_menu;
     
@@ -62,6 +63,11 @@ public:
      * 設定をシーンによって変える
      */
     virtual void settingShotSceneObject(SHOT_SECNE val);
+    
+    /**
+     * シーンを切り替える
+     */
+    virtual void shotCountup();
 };
 
 #endif /* defined(__rendaPower__PlayScene__) */
