@@ -13,6 +13,7 @@
 		57055F2918B0A56A00EEC416 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 57055F2818B0A56A00EEC416 /* Info.plist */; };
 		57055F2D18B30A2000EEC416 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57055F2C18B30A2000EEC416 /* Images.xcassets */; };
 		57055F2F18B5265900EEC416 /* logo in Resources */ = {isa = PBXBuildFile; fileRef = 57055F2E18B5265900EEC416 /* logo */; };
+		57A2A7291933AEF1001322C2 /* ShuttleModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57A2A7271933AEF1001322C2 /* ShuttleModel.cpp */; };
 		57AAACA4185EBB3600092891 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57AAACA3185EBB3600092891 /* QuartzCore.framework */; };
 		57AAACA6185EBB3600092891 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57AAACA5185EBB3600092891 /* OpenGLES.framework */; };
 		57AAACA8185EBB3600092891 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57AAACA7185EBB3600092891 /* OpenAL.framework */; };
@@ -288,6 +289,8 @@
 		57055F2818B0A56A00EEC416 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = rendaPower/Resources/Info.plist; sourceTree = SOURCE_ROOT; };
 		57055F2C18B30A2000EEC416 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		57055F2E18B5265900EEC416 /* logo */ = {isa = PBXFileReference; lastKnownFileType = folder; name = logo; path = rendaPower/Resources/logo; sourceTree = SOURCE_ROOT; };
+		57A2A7271933AEF1001322C2 /* ShuttleModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShuttleModel.cpp; sourceTree = "<group>"; };
+		57A2A7281933AEF1001322C2 /* ShuttleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShuttleModel.h; sourceTree = "<group>"; };
 		57AAACA0185EBB3600092891 /* rendaPower.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rendaPower.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57AAACA3185EBB3600092891 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		57AAACA5185EBB3600092891 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -2126,6 +2129,8 @@
 			isa = PBXGroup;
 			children = (
 				57BE6DA618B900CE004514A8 /* ShuttleScene.cpp */,
+				57A2A7271933AEF1001322C2 /* ShuttleModel.cpp */,
+				57A2A7281933AEF1001322C2 /* ShuttleModel.h */,
 				57BE6DA718B900CE004514A8 /* ShuttleScene.h */,
 			);
 			name = Game;
@@ -2434,6 +2439,7 @@
 				57AAAD0D185EBB3700092891 /* CCDirector.cpp in Sources */,
 				57AAACDF185EBB3600092891 /* CCActionCatmullRom.cpp in Sources */,
 				57AAAF7B185EBB3A00092891 /* CCScrollView.cpp in Sources */,
+				57A2A7291933AEF1001322C2 /* ShuttleModel.cpp in Sources */,
 				57AAAE5C185EBB3800092891 /* CCPointExtension.cpp in Sources */,
 				57AAAF28185EBB3A00092891 /* CCScale9SpriteLoader.cpp in Sources */,
 				57AAAE65185EBB3900092891 /* ccUtils.cpp in Sources */,

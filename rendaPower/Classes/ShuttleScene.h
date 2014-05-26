@@ -10,6 +10,7 @@
 #define __rendaPower__PlayScene__
 
 #include "cocos2d.h"
+#include "ShuttleModel.h"
 
 /**
  * スペースシャトルのゲームプレイ
@@ -18,8 +19,10 @@ class ShuttleScene : public cocos2d::CCLayer
 {
 protected:
     cocos2d::CCSprite * m_PlanetSprite;
-    cocos2d::CCSprite * m_RocketSprite;
-    cocos2d::CCLayer * m_BackGroundLayer;
+    ShuttleModel * m_RocketSprite;
+    cocos2d::CCSprite * m_CloudSprite1;
+    cocos2d::CCSprite * m_CloudSprite2;
+    cocos2d::CCLayerGradient * m_BackGroundLayer;
     
     cocos2d::CCMenu * m_menu;
     
@@ -43,6 +46,8 @@ protected:
         SSHOT_SCORE,
         SSHOT_RETRY
     };
+    
+    SHOT_SECNE m_shotSceneState;
 public:
     static cocos2d::CCScene* scene();
     
@@ -67,7 +72,18 @@ public:
     /**
      * シーンを切り替える
      */
-    virtual void shotCountup();
+    virtual void shotChenge();
+    
+    /**
+     * パワー値をためる
+     */
+    virtual void powerCountup();
+    
+    /**
+     * 惑星を見上げたところからのアニメーション
+     */
+    virtual void planetLookAnime();
+    
 };
 
 #endif /* defined(__rendaPower__PlayScene__) */

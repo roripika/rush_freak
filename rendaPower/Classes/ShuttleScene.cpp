@@ -29,7 +29,10 @@ ShuttleScene::ShuttleScene()
 ,m_menu(NULL)
 ,m_PlanetSprite(NULL)
 ,m_RocketSprite(NULL)
+,m_CloudSprite1(NULL)
+,m_CloudSprite2(NULL)
 ,m_BackGroundLayer(NULL)
+,m_shotSceneState(SSHOT_INIT)
 {
     
 }
@@ -68,13 +71,18 @@ bool ShuttleScene::init()
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
     //背景
-    m_BackGroundLayer = CCLayer::create();
+    m_BackGroundLayer = CCLayerGradient::create(ccc4(0x0, 0x0, 0x0, 0xFF), ccc4(0x7f, 0x7f, 0x7f, 0x7f));
     this->m_BackGroundLayer->setContentSize(CCSizeMake(size.width, DEF_BG_HEIGHT));
+    this->addChild(this->m_BackGroundLayer,0);
     
     this->m_PlanetSprite = CCSprite::create("base/planet.png");
-    this->m_RocketSprite = CCSprite::create("base/rocket.png");
+    this->m_RocketSprite = ShuttleModel::create();
+    this->m_CloudSprite1 = CCSprite::create("base/kumo.png");
+    this->m_CloudSprite2 = CCSprite::create("base/kumo.png");
     
     this->m_BackGroundLayer->addChild(this->m_PlanetSprite, 0);
+    this->m_BackGroundLayer->addChild(this->m_CloudSprite1, 5);
+    this->m_BackGroundLayer->addChild(this->m_CloudSprite2, 6);
     this->m_BackGroundLayer->addChild(this->m_RocketSprite, 10);
     
     
@@ -142,7 +150,7 @@ bool ShuttleScene::init()
     this->m_ReadyLabel->setPosition(ccp(size.width * 0.5f,size.height * 0.5f));
     
     //開始
-    shotCountup();
+    shotChenge();
 
     return true;
 }
@@ -156,17 +164,12 @@ void ShuttleScene::settingShotSceneObject(SHOT_SECNE val)
     
     switch (val) {
         case SSHOT_INIT: //初期準備
-        {
-            this->m_PlanetSprite->setPosition(ccp(size.width * 0.5f,size.height * 0.5f));
-            this->m_ReadyLabel->setVisible(false);
-            this->m_BackGroundLayer->setPosition(
-                                                 ccp(this->m_BackGroundLayer->getPosition().x,
-                                                     DEF_BG_HEIGHT - size.height));
+            this->planetLookAnime();
             break;
-        }
         case SSHOT_READY:
             this->m_ReadyLabel->setVisible(true);
             this->m_ReadyLabel->setString("Are you ready?");
+            break;
         case SSHOT_START_COUNT:
         case SSHOT_PUSH_PLAY:
         case SSHOT_SHUTTLE_ANIME:
@@ -180,8 +183,69 @@ void ShuttleScene::settingShotSceneObject(SHOT_SECNE val)
 /**
  * シーンを切り替える
  */
-void ShuttleScene::shotCountup()
+void ShuttleScene::shotChenge()
 {
-    CCCallFunc * call = CCCallFunc::create(this, callfunc_selector(ShuttleScene::shotCountup));
-    this->runAction(CCSequence::create(call,NULL));
+    this->settingShotSceneObject(m_shotSceneState);
 }
+
+/**
+ * パワー値をためる
+ */
+void ShuttleScene::powerCountup()
+{
+    //エネルギーチャージ
+    this->m_RocketSprite->chargeEnergy();
+}
+/**
+ * 惑星を見上げたところからのアニメーション
+ */
+void ShuttleScene::planetLookAnime()
+{
+    CCSize size = CCDirector::sharedDirector()->getWinSize();
+    this->m_ReadyLabel->setVisible(false);
+    //ロケット初期位置
+    this->m_RocketSprite->setPosition(size.width * 0.5f,size.height * 0.5f);
+    this->m_RocketSprite->resetParam();
+    
+    //雲の配置
+    this->m_CloudSprite1->setPosition(ccp(this->m_PlanetSprite->getPosition().x - 30.0f,
+                                          this->m_PlanetSprite->getPosition().y + 5));
+    this->m_CloudSprite2->setPosition(ccp(this->m_PlanetSprite->getPosition().x + 30.0f,
+                                          this->m_PlanetSprite->getPosition().y - 5));
+    this->m_CloudSprite1->setOpacity(0xFF);
+    this->m_CloudSprite2->setOpacity(0xFF);
+    this->m_CloudSprite1->setScale(1.5f);
+    this->m_CloudSprite2->setScale(1.5f);
+    
+    //背景見上げる
+    this->m_BackGroundLayer->setPosition(
+                                         ccp(this->m_BackGroundLayer->getPosition().x,
+                                            -DEF_BG_HEIGHT + size.height));
+    CCArray * seqlist = CCArray::create();
+    seqlist->addObject(CCDelayTime::create(2.5f));
+    seqlist->addObject(CCMoveTo::create(1.5f, ccp(this->m_BackGroundLayer->getPosition().x,0)));
+    seqlist->addObject(CCCallFunc::create(this, callfunc_selector(ShuttleScene::shotChenge)));
+    this->m_BackGroundLayer->runAction(CCSequence::create(seqlist));
+    
+    //雲が開けるアニメーション
+    this->m_CloudSprite1->runAction(CCSequence::create(CCDelayTime::create(1.0f),
+                                                       CCSpawn::createWithTwoActions(
+                                                                                     CCMoveBy::create(1, ccp(-100, 0)),
+                                                                                     CCFadeTo::create(1,0)
+                                                                                     )
+                                                       ,NULL)
+                                    );
+    this->m_CloudSprite2->runAction(CCSequence::create(CCDelayTime::create(1.0f),
+                                                       CCSpawn::createWithTwoActions(
+                                                                                     CCMoveBy::create(1, ccp(100, 0)),
+                                                                                     CCFadeTo::create(1,0)
+                                                                                     )
+                                                       ,NULL)
+                                    );
+    
+    //準備OK?
+    this->m_shotSceneState = SSHOT_READY;
+    
+}
+
+
