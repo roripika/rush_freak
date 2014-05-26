@@ -22,15 +22,23 @@ protected:
     
     cocos2d::CCMenu * m_menu;
     
-    cocos2d::CCLabelTTF * m_Score;
-    cocos2d::CCLabelTTF * m_Lady;
+    cocos2d::CCLabelTTF * m_HiScoreLabel;
+    cocos2d::CCLabelTTF * m_ScoreLabel;
+    cocos2d::CCLabelTTF * m_ReadyLabel;
+    cocos2d::CCLabelTTF * m_SpeedLabel;
+    cocos2d::CCLabelTTF * m_PowerLabel;
+    
+    long m_PowerPoint;
+    long m_Score;
+    long m_HiScore;
     
     enum SHOT_SECNE
     {
         SSHOT_INIT = 0,
-        SSHOT_LADY,
-        SSHOT_GAMEPLAY,
-        SSHOT_GAMEANIME,
+        SSHOT_READY,
+        SSHOT_START_COUNT,
+        SSHOT_PUSH_PLAY,
+        SSHOT_SHUTTLE_ANIME,
         SSHOT_SCORE,
         SSHOT_RETRY
     };

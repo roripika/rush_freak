@@ -8,15 +8,23 @@
 
 #include "ShuttleScene.h"
 
+#define DEF_PRINTSTR_HISCORE    ("HiScore: %8d")
+#define DEF_PRINTSTR_SCORE      ("Score  : %8d")
+#define DEF_PRINTSTR_SPEED      ("Speed: %4d")
+#define DEF_PRINTSTR_POWER      ("Power: %4d")
+
 using namespace cocos2d;
 
 /**
  * コンストラクタ
  */
 ShuttleScene::ShuttleScene()
-:m_Lady(NULL)
+:m_ReadyLabel(NULL)
+,m_ScoreLabel(NULL)
+,m_PowerLabel(NULL)
+,m_HiScoreLabel(NULL)
+,m_SpeedLabel(NULL)
 ,m_menu(NULL)
-,m_Score(NULL)
 ,m_PlanetSprite(NULL)
 ,m_RocketSprite(NULL)
 {
@@ -79,12 +87,53 @@ bool ShuttleScene::init()
     this->addChild(this->m_RocketSprite, 10);
     this->addChild(this->m_menu, 0);
     
+    //UIの初期位置設定
+    char buff[100] = "";
+    //ハイスコア
+    sprintf(buff,DEF_PRINTSTR_HISCORE,0);
+    this->m_HiScoreLabel = CCLabelTTF::create(buff, "Helvetica", 48);
+    this->m_HiScoreLabel->setAnchorPoint(ccp(0.0,1.0f));
+    this->m_HiScoreLabel->setPosition(ccp(0,size.height));
+    //スコア
+    sprintf(buff,DEF_PRINTSTR_SCORE,0);
+    this->m_ScoreLabel = CCLabelTTF::create(buff, "Helvetica", 48);
+    this->m_ScoreLabel->setAnchorPoint(ccp(0.0,1.0f));
+    this->m_ScoreLabel->setPosition(
+                                    ccp(0,
+                                        size.height -
+                                        this->m_HiScoreLabel->getContentSize().height));
+
+    //レディーラベル
+    this->m_ReadyLabel = CCLabelTTF::create("", "Helvetica", 48);
+    this->m_ReadyLabel->setPosition(ccp(size.width * 0.5f,size.height * 0.5f));
+
+    //スピードラベル
+    sprintf(buff,DEF_PRINTSTR_SPEED,0);
+    this->m_SpeedLabel = CCLabelTTF::create(buff, "Helvetica", 48);
+    this->m_SpeedLabel->setAnchorPoint(ccp(0,0));
+    this->m_SpeedLabel->setPosition(ccp(0,0));
+    
+    //パワーラベル
+    sprintf(buff,DEF_PRINTSTR_POWER,0);
+    this->m_PowerLabel = CCLabelTTF::create(buff, "Helvetica", 48);
+    this->m_PowerLabel->setAnchorPoint(ccp(0,0));
+    this->m_PowerLabel->setPosition(ccp(0,
+                                        this->m_SpeedLabel->getContentSize().height));
+    
+    this->addChild(this->m_HiScoreLabel,1000);
+    this->addChild(this->m_ScoreLabel,1000);
+    this->addChild(this->m_ReadyLabel,1000);
+    this->addChild(this->m_SpeedLabel,1000);
+    this->addChild(this->m_PowerLabel,1000);
+    
     
     //ボタンの位置
     menuPush->setPosition(ccp(size.width -
                               menuPush->getContentSize().width * 0.5f,
                               menuPush->getContentSize().height * 0.5f));
     this->m_menu->setPosition(0, 0);
+    this->m_ReadyLabel->setPosition(ccp(size.width * 0.5f,size.height * 0.5f));
+    
     
     return true;
 }
@@ -94,9 +143,21 @@ bool ShuttleScene::init()
  */
 void ShuttleScene::settingShotSceneObject(SHOT_SECNE val)
 {
+    CCSize size = CCDirector::sharedDirector()->getWinSize();
+    
     switch (val) {
-        case SSHOT_INIT:            
+        case SSHOT_INIT: //初期準備
+            this->m_PlanetSprite->setPosition(ccp(size.width * 0.5f,size.height * 0.5f));
+            this->m_ReadyLabel->setVisible(false);
             break;
+        case SSHOT_READY:
+            this->m_ReadyLabel->setVisible(true);
+            this->m_ReadyLabel->setString("Are you ready?");
+        case SSHOT_START_COUNT:
+        case SSHOT_PUSH_PLAY:
+        case SSHOT_SHUTTLE_ANIME:
+        case SSHOT_SCORE:
+        case SSHOT_RETRY:
             
         default:
             break;
