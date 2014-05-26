@@ -10,6 +10,26 @@
 
 using namespace cocos2d;
 
+/**
+ * コンストラクタ
+ */
+ShuttleScene::ShuttleScene()
+:m_Lady(NULL)
+,m_menu(NULL)
+,m_Score(NULL)
+,m_PlanetSprite(NULL)
+,m_RocketSprite(NULL)
+{
+    
+}
+/**
+ * デストラクタ
+ */
+ShuttleScene::~ShuttleScene()
+{
+    
+}
+
 CCScene* ShuttleScene::scene()
 {
     // 'scene' is an autorelease object
@@ -67,4 +87,18 @@ bool ShuttleScene::init()
     this->m_menu->setPosition(0, 0);
     
     return true;
+}
+
+/**
+ * 設定をシーンによって変える
+ */
+void ShuttleScene::settingShotSceneObject(SHOT_SECNE val)
+{
+    switch (val) {
+        case SSHOT_INIT:            
+            break;
+            
+        default:
+            break;
+    }
 }
