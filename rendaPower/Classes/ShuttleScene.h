@@ -38,6 +38,7 @@ protected:
     
     enum SHOT_SECNE
     {
+        SSHOT_NONE = -1,
         SSHOT_INIT = 0,
         SSHOT_READY,
         SSHOT_START_COUNT,
@@ -48,6 +49,17 @@ protected:
     };
     
     SHOT_SECNE m_shotSceneState;
+
+    /**
+     * 設定をシーンによって変える
+     */
+    virtual void settingShotSceneObject(SHOT_SECNE val);
+
+    /**
+     * 次の設定シーンを取得する
+     */
+    virtual SHOT_SECNE nextShotSceneSelecter(SHOT_SECNE val);
+    
 public:
     static cocos2d::CCScene* scene();
     
@@ -65,24 +77,45 @@ public:
     CREATE_FUNC(ShuttleScene);
     
     /**
-     * 設定をシーンによって変える
-     */
-    virtual void settingShotSceneObject(SHOT_SECNE val);
-    
-    /**
      * シーンを切り替える
      */
     virtual void shotChenge();
     
     /**
-     * パワー値をためる
+     * ラッシュボタンのタップ
      */
-    virtual void powerCountup();
+    virtual void tapRushButton();
     
+    /**
+     * 数値関連の数値更新
+     */
+    virtual void refleshStetusLabel();
+    
+    /**
+     * UIオブジェクトの表示非表示
+     */
+    virtual void UIsVisible(bool val);
+
+#pragma mark カットシーン処理類
     /**
      * 惑星を見上げたところからのアニメーション
      */
     virtual void planetLookAnime();
+
+    /**
+     * 準備完了？の処理
+     */
+    virtual void readyCheck();
+    
+    /**
+     * RUSHタイム
+     */
+    virtual void pushRushPlay();
+    
+    /**
+     * シャトル発射
+     */
+    virtual void launchShuttleAnime();
     
 };
 

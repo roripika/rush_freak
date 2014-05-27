@@ -10,11 +10,17 @@
 
 #define DEF_PRINTSTR_HISCORE    ("HiScore: %8d")
 #define DEF_PRINTSTR_SCORE      ("Score  : %8d")
-#define DEF_PRINTSTR_SPEED      ("Speed: %4d")
-#define DEF_PRINTSTR_POWER      ("Power: %4d")
+#define DEF_PRINTSTR_SPEED      ("Speed: %4ld")
+#define DEF_PRINTSTR_POWER      ("Power: %4ld")
 
 
 #define DEF_BG_HEIGHT   (4000)
+
+#define DEF_TAG_RUSH_BTN (10000)
+
+#define DEF_Z_UI (1000)
+
+#define DEF_RUSH_TIME (10000)
 using namespace cocos2d;
 
 /**
@@ -32,7 +38,7 @@ ShuttleScene::ShuttleScene()
 ,m_CloudSprite1(NULL)
 ,m_CloudSprite2(NULL)
 ,m_BackGroundLayer(NULL)
-,m_shotSceneState(SSHOT_INIT)
+,m_shotSceneState(SSHOT_NONE)
 {
     
 }
@@ -91,13 +97,16 @@ bool ShuttleScene::init()
                                       ccp(
                                           size.width * 0.5f,
                                         DEF_BG_HEIGHT- size.height * 0.5f) );
-    
+
     this->m_menu = CCMenu::create();
+    
+    //RUSHボタンの生成
     CCSprite* normalSprite = CCSprite::create("base/tap_button.png");
     CCSprite* selectSprite = CCSprite::create("base/tap_button.png");
     selectSprite->setColor(ccc3(0x7F, 0x7F, 0x7F));
     CCMenuItemSprite * menuPush = CCMenuItemSprite::create(normalSprite, selectSprite);
-    menuPush->setTag(10000);
+    menuPush->setTarget(this, menu_selector(ShuttleScene::tapRushButton));
+    menuPush->setTag(DEF_TAG_RUSH_BTN);
     this->m_menu->addChild(menuPush);
     // add the sprite as a child to this layer
     this->addChild(this->m_menu, 5000);
@@ -123,23 +132,23 @@ bool ShuttleScene::init()
     this->m_ReadyLabel->setPosition(ccp(size.width * 0.5f,size.height * 0.5f));
 
     //スピードラベル
-    sprintf(buff,DEF_PRINTSTR_SPEED,0);
+    sprintf(buff,DEF_PRINTSTR_SPEED,0L);
     this->m_SpeedLabel = CCLabelTTF::create(buff, "Helvetica", 48);
     this->m_SpeedLabel->setAnchorPoint(ccp(0,0));
     this->m_SpeedLabel->setPosition(ccp(0,0));
     
     //パワーラベル
-    sprintf(buff,DEF_PRINTSTR_POWER,0);
+    sprintf(buff,DEF_PRINTSTR_POWER,0L);
     this->m_PowerLabel = CCLabelTTF::create(buff, "Helvetica", 48);
     this->m_PowerLabel->setAnchorPoint(ccp(0,0));
     this->m_PowerLabel->setPosition(ccp(0,
                                         this->m_SpeedLabel->getContentSize().height));
     
-    this->addChild(this->m_HiScoreLabel,1000);
-    this->addChild(this->m_ScoreLabel,1000);
-    this->addChild(this->m_ReadyLabel,1000);
-    this->addChild(this->m_SpeedLabel,1000);
-    this->addChild(this->m_PowerLabel,1000);
+    this->addChild(this->m_HiScoreLabel,DEF_Z_UI);
+    this->addChild(this->m_ScoreLabel,DEF_Z_UI);
+    this->addChild(this->m_ReadyLabel,DEF_Z_UI);
+    this->addChild(this->m_SpeedLabel,DEF_Z_UI);
+    this->addChild(this->m_PowerLabel,DEF_Z_UI);
     
     
     //ボタンの位置
@@ -167,12 +176,14 @@ void ShuttleScene::settingShotSceneObject(SHOT_SECNE val)
             this->planetLookAnime();
             break;
         case SSHOT_READY:
-            this->m_ReadyLabel->setVisible(true);
-            this->m_ReadyLabel->setString("Are you ready?");
+            this->readyCheck();
             break;
-        case SSHOT_START_COUNT:
         case SSHOT_PUSH_PLAY:
+            this->pushRushPlay();
+            break;
         case SSHOT_SHUTTLE_ANIME:
+            this->launchShuttleAnime();
+            break;
         case SSHOT_SCORE:
         case SSHOT_RETRY:
             
@@ -181,21 +192,105 @@ void ShuttleScene::settingShotSceneObject(SHOT_SECNE val)
     }
 }
 /**
+ * 次の設定シーンを取得する
+ */
+ShuttleScene::SHOT_SECNE ShuttleScene::nextShotSceneSelecter(SHOT_SECNE val)
+{
+    SHOT_SECNE ret = SSHOT_NONE;
+    
+    switch (val) {
+        case SSHOT_INIT:
+            ret = SSHOT_READY;
+            break;
+        case SSHOT_READY:
+            ret = SSHOT_PUSH_PLAY;
+            break;
+        case SSHOT_PUSH_PLAY:
+            ret = SSHOT_SHUTTLE_ANIME;
+            break;
+        case SSHOT_SHUTTLE_ANIME:
+            ret = SSHOT_SCORE;
+            break;
+        case SSHOT_SCORE:
+        case SSHOT_RETRY:
+            
+        default:
+            ret = SSHOT_INIT;
+            break;
+    }
+    
+    return ret;
+}
+
+/**
  * シーンを切り替える
  */
 void ShuttleScene::shotChenge()
 {
+    //数値更新
+    this->refleshStetusLabel();
+
+    //次のシーンを選択
+    this->m_shotSceneState = nextShotSceneSelecter(m_shotSceneState);
+    
+    //カットシーンに合わせて修正
     this->settingShotSceneObject(m_shotSceneState);
 }
 
 /**
- * パワー値をためる
+ * ラッシュボタンのタップ
  */
-void ShuttleScene::powerCountup()
+void ShuttleScene::tapRushButton()
 {
+    if(this->m_shotSceneState == SSHOT_READY)
+    {
+        this->shotChenge();
+    }
+    
     //エネルギーチャージ
     this->m_RocketSprite->chargeEnergy();
+    
+    //項目の更新
+    this->refleshStetusLabel();
 }
+
+/**
+ * 数値関連の数値更新
+ */
+void ShuttleScene::refleshStetusLabel()
+{
+    char buff[100];
+    
+    //ハイスコア
+    sprintf(buff,DEF_PRINTSTR_HISCORE,0);
+    this->m_HiScoreLabel->setString(buff);
+    
+    //スコア
+    sprintf(buff,DEF_PRINTSTR_SCORE,0);
+    this->m_ScoreLabel->setString(buff);
+    
+    //スピードラベル
+    sprintf(buff,DEF_PRINTSTR_SPEED,this->m_RocketSprite->getSpeed());
+    this->m_SpeedLabel->setString(buff);
+    
+    //パワーラベル
+    sprintf(buff,DEF_PRINTSTR_POWER,this->m_RocketSprite->getEnergy());
+    this->m_PowerLabel->setString(buff);
+    
+}
+/**
+ * UIオブジェクトの表示非表示
+ */
+void ShuttleScene::UIsVisible(bool val)
+{
+    this->m_menu->setVisible(val);
+    this->m_HiScoreLabel->setVisible(val);
+    this->m_ScoreLabel->setVisible(val);
+    this->m_SpeedLabel->setVisible(val);
+    this->m_PowerLabel->setVisible(val);
+}
+
+#pragma mark カットシーン処理類
 /**
  * 惑星を見上げたところからのアニメーション
  */
@@ -220,7 +315,7 @@ void ShuttleScene::planetLookAnime()
     //背景見上げる
     this->m_BackGroundLayer->setPosition(
                                          ccp(this->m_BackGroundLayer->getPosition().x,
-                                            -DEF_BG_HEIGHT + size.height));
+                                             -DEF_BG_HEIGHT + size.height));
     CCArray * seqlist = CCArray::create();
     seqlist->addObject(CCDelayTime::create(2.5f));
     seqlist->addObject(CCMoveTo::create(1.5f, ccp(this->m_BackGroundLayer->getPosition().x,0)));
@@ -243,9 +338,37 @@ void ShuttleScene::planetLookAnime()
                                                        ,NULL)
                                     );
     
-    //準備OK?
-    this->m_shotSceneState = SSHOT_READY;
-    
+    //ステータスやボタンを押せなくする
+    this->UIsVisible(false);
 }
-
+/**
+ * 準備完了？の処理
+ */
+void ShuttleScene::readyCheck()
+{
+    this->m_ReadyLabel->setVisible(true);
+    this->m_ReadyLabel->setString("Are you ready?");
+    
+    this->UIsVisible(true);
+}
+/**
+ * RUSHタイム
+ */
+void ShuttleScene::pushRushPlay()
+{
+    this->m_ReadyLabel->setVisible(false);
+    
+    CCArray *seq = CCArray::create();
+    seq->addObject(CCDelayTime::create(DEF_RUSH_TIME));
+    seq->addObject(CCCallFunc::create(this,callfunc_selector(ShuttleScene::shotChenge)));
+    
+    this->runAction(CCSequence::create(seq));
+}
+/**
+ * シャトル発射
+ */
+void ShuttleScene::launchShuttleAnime()
+{
+    this->m_menu->setVisible(false);
+}
 

@@ -14,10 +14,10 @@
 class ShuttleModel:public cocos2d::CCNode
 {
 protected:
-    static unsigned long CHARGE_ADD;
-    static unsigned long CHARGE_MAX;
-    static unsigned long ACCELERATION;
-    static unsigned long SPEED_MAX;
+    static const unsigned long CHARGE_ADD;
+    static const unsigned long CHARGE_MAX;
+    static const unsigned long ACCELERATION;
+    static const unsigned long SPEED_MAX;
     cocos2d::CCSprite* m_RocketSprite;
 public:
     ShuttleModel();
