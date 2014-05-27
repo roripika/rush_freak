@@ -14,19 +14,17 @@
 class ShuttleModel:public cocos2d::CCNode
 {
 protected:
-    const unsigned long CHARGE_ADD = 10;
-    const unsigned long CHARGE_MAX = 300;
-    const unsigned long ACCELERATION = 5;
-    const unsigned long SPEED_MAX = 50;
+    static unsigned long CHARGE_ADD;
+    static unsigned long CHARGE_MAX;
+    static unsigned long ACCELERATION;
+    static unsigned long SPEED_MAX;
     cocos2d::CCSprite* m_RocketSprite;
 public:
     ShuttleModel();
-    ~ShuttleModel();
-    CREATE_FUNC(ShuttleModel);
+    virtual ~ShuttleModel();
     virtual bool init();
     
-    CC_SYNTHESIZE(long,m_Energy,Energy);
-    CC_SYNTHESIZE(long,m_Speed,Speed);
+    CREATE_FUNC(ShuttleModel);
     
     /**
      * エネルギーチャージ
@@ -37,6 +35,11 @@ public:
      * 値リセット
      */
     virtual void resetParam();
+
+    
+    CC_SYNTHESIZE(long,m_Energy,Energy);
+    CC_SYNTHESIZE(long,m_Speed,Speed);
+    
 };
 
 #endif /* defined(__rendaPower__ShuttleModel__) */

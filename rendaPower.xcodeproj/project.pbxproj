@@ -2128,9 +2128,9 @@
 		57BE6DAC18B90288004514A8 /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				57BE6DA618B900CE004514A8 /* ShuttleScene.cpp */,
 				57A2A7271933AEF1001322C2 /* ShuttleModel.cpp */,
 				57A2A7281933AEF1001322C2 /* ShuttleModel.h */,
+				57BE6DA618B900CE004514A8 /* ShuttleScene.cpp */,
 				57BE6DA718B900CE004514A8 /* ShuttleScene.h */,
 			);
 			name = Game;
