@@ -1,0 +1,5 @@
+# シャープで始めるとコメント行になる
+
+*/proj.android/assets/
+
+*proj.android/*.o
