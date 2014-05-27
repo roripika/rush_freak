@@ -10,12 +10,18 @@
 
 USING_NS_CC;
 
+unsigned long ShuttleModel::CHARGE_ADD = 10;
+unsigned long ShuttleModel::CHARGE_MAX = 300;
+unsigned long ShuttleModel::ACCELERATION = 5;
+unsigned long ShuttleModel::SPEED_MAX = 50;
+
 ShuttleModel::ShuttleModel()
 :m_Energy(0)
 ,m_Speed(0)
 ,m_RocketSprite(NULL)
 {
 }
+
 ShuttleModel::~ShuttleModel()
 {
     
