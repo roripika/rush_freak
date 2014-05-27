@@ -2,4 +2,15 @@
 
 */proj.android/assets/
 
-*proj.android/*.o
+*/proj.android/*/*.o
+
+*.xcworkspacedata
+*.xcuserdatad
+project.xcworkspace
+
+*.settings
+
+assets/
+bin/
+gen/
+obj/
