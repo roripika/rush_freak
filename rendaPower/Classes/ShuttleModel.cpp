@@ -10,10 +10,10 @@
 
 USING_NS_CC;
 
-unsigned long ShuttleModel::CHARGE_ADD = 10;
-unsigned long ShuttleModel::CHARGE_MAX = 300;
-unsigned long ShuttleModel::ACCELERATION = 5;
-unsigned long ShuttleModel::SPEED_MAX = 50;
+const unsigned long ShuttleModel::CHARGE_ADD = 10;
+const unsigned long ShuttleModel::CHARGE_MAX = 1000;
+const unsigned long ShuttleModel::ACCELERATION = 5;
+const unsigned long ShuttleModel::SPEED_MAX = 50;
 
 ShuttleModel::ShuttleModel()
 :m_Energy(0)
@@ -51,7 +51,14 @@ bool ShuttleModel::init()
  */
 void ShuttleModel::chargeEnergy()
 {
-    this->m_Energy += this->CHARGE_ADD;
+    if(this->m_Energy < CHARGE_MAX)
+    {
+        this->m_Energy += CHARGE_ADD;
+        if(this->m_Energy > CHARGE_MAX)
+        {
+            this->m_Energy = CHARGE_MAX;
+        }
+    }
 }
 
 /**
