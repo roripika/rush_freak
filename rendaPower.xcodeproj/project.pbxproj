@@ -13,6 +13,7 @@
 		57055F2918B0A56A00EEC416 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 57055F2818B0A56A00EEC416 /* Info.plist */; };
 		57055F2D18B30A2000EEC416 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57055F2C18B30A2000EEC416 /* Images.xcassets */; };
 		57055F2F18B5265900EEC416 /* logo in Resources */ = {isa = PBXBuildFile; fileRef = 57055F2E18B5265900EEC416 /* logo */; };
+		5785DA3319359FD600E15900 /* CountNumberSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5785DA3119359FD600E15900 /* CountNumberSprite.cpp */; };
 		57A2A7291933AEF1001322C2 /* ShuttleModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57A2A7271933AEF1001322C2 /* ShuttleModel.cpp */; };
 		57AAACA4185EBB3600092891 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57AAACA3185EBB3600092891 /* QuartzCore.framework */; };
 		57AAACA6185EBB3600092891 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57AAACA5185EBB3600092891 /* OpenGLES.framework */; };
@@ -289,6 +290,8 @@
 		57055F2818B0A56A00EEC416 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = rendaPower/Resources/Info.plist; sourceTree = SOURCE_ROOT; };
 		57055F2C18B30A2000EEC416 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		57055F2E18B5265900EEC416 /* logo */ = {isa = PBXFileReference; lastKnownFileType = folder; name = logo; path = rendaPower/Resources/logo; sourceTree = SOURCE_ROOT; };
+		5785DA3119359FD600E15900 /* CountNumberSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CountNumberSprite.cpp; sourceTree = "<group>"; };
+		5785DA3219359FD600E15900 /* CountNumberSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountNumberSprite.h; sourceTree = "<group>"; };
 		57A2A7271933AEF1001322C2 /* ShuttleModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShuttleModel.cpp; sourceTree = "<group>"; };
 		57A2A7281933AEF1001322C2 /* ShuttleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShuttleModel.h; sourceTree = "<group>"; };
 		57AAACA0185EBB3600092891 /* rendaPower.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rendaPower.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2086,7 +2089,7 @@
 		57AAB044185EBB3B00092891 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				57BE6DAC18B90288004514A8 /* Game */,
+				57BE6DAC18B90288004514A8 /* ShuttleGame */,
 				57BE6DAB18B90174004514A8 /* SelectMenu */,
 				57BE6DAA18B90106004514A8 /* Logo */,
 				57BE6DA918B900DD004514A8 /* Title */,
@@ -2125,15 +2128,17 @@
 			name = SelectMenu;
 			sourceTree = "<group>";
 		};
-		57BE6DAC18B90288004514A8 /* Game */ = {
+		57BE6DAC18B90288004514A8 /* ShuttleGame */ = {
 			isa = PBXGroup;
 			children = (
 				57A2A7271933AEF1001322C2 /* ShuttleModel.cpp */,
 				57A2A7281933AEF1001322C2 /* ShuttleModel.h */,
 				57BE6DA618B900CE004514A8 /* ShuttleScene.cpp */,
 				57BE6DA718B900CE004514A8 /* ShuttleScene.h */,
+				5785DA3119359FD600E15900 /* CountNumberSprite.cpp */,
+				5785DA3219359FD600E15900 /* CountNumberSprite.h */,
 			);
-			name = Game;
+			name = ShuttleGame;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2389,6 +2394,7 @@
 				57AAB00D185EBB3B00092891 /* cpPinJoint.c in Sources */,
 				57AAAE02185EBB3800092891 /* EAGLView.mm in Sources */,
 				57AAACF7185EBB3700092891 /* CCActionProgressTimer.cpp in Sources */,
+				5785DA3319359FD600E15900 /* CountNumberSprite.cpp in Sources */,
 				57AAAEE5185EBB3900092891 /* CCBAnimationManager.cpp in Sources */,
 				57AAADD0185EBB3800092891 /* CCFileUtils.cpp in Sources */,
 				57AAAEA6185EBB3900092891 /* CCTexturePVR.cpp in Sources */,

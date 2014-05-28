@@ -20,7 +20,7 @@
 
 #define DEF_Z_UI (1000)
 
-#define DEF_RUSH_TIME (10000)
+#define DEF_RUSH_TIME (10)
 using namespace cocos2d;
 
 /**
