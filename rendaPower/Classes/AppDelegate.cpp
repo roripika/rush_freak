@@ -11,6 +11,7 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 #include "TitleScene.h"
+#include "NativeCodeAst.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
@@ -32,6 +33,12 @@ bool AppDelegate::applicationDidFinishLaunching()
     
     CCEGLView * glView = CCEGLView::sharedOpenGLView();
 
+    
+    //アスタ広告
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        AstExt::NativeCodeAst::initAst();
+#endif
+    
     //プラットフォーム別の設定
     TargetPlatform platform = CCApplication::sharedApplication()->getTargetPlatform();
     switch (platform) {

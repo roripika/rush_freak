@@ -205,7 +205,8 @@ obj/local/armeabi/objs/game_shared/__/__/Classes/TitleScene.o: \
  /Applications/cocos2d-x-2.1.5/cocos2dx/support/component/CCComponentContainer.h \
  jni/../../Classes/SelectMenuScene.h \
  /Applications/cocos2d-x-2.1.5/CocosDenshion/android/../include/SimpleAudioEngine.h \
- /Applications/cocos2d-x-2.1.5/CocosDenshion/android/../include/Export.h
+ /Applications/cocos2d-x-2.1.5/CocosDenshion/android/../include/Export.h \
+ jni/../../Classes/common/NativeCodeAst.h
 
 jni/../../Classes/TitleScene.h:
 
@@ -620,3 +621,5 @@ jni/../../Classes/SelectMenuScene.h:
 /Applications/cocos2d-x-2.1.5/CocosDenshion/android/../include/SimpleAudioEngine.h:
 
 /Applications/cocos2d-x-2.1.5/CocosDenshion/android/../include/Export.h:
+
+jni/../../Classes/common/NativeCodeAst.h:
