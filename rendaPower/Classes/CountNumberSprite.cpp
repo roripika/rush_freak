@@ -17,11 +17,11 @@ bool CountNumberSprite::init()
         return false;
     }
     
-    this->m_countLabel = CCLabelTTF::create("0", "Helvecica", 60,CCSizeMake(60, 60),kCCTextAlignmentCenter);
+    this->m_countLabel = CCLabelTTF::create("0", "Helvecica", 60,CCSizeMake(70, 70),kCCTextAlignmentCenter);
     this->m_countLabel->setAnchorPoint(ccp(0,0));
     this->addChild(this->m_countLabel);
     
-    this->setContentSize(CCSizeMake(60, 60));
+    this->setContentSize(CCSizeMake(70, 70));
     
     return true;
 }
