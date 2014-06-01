@@ -29,11 +29,17 @@ import android.os.Bundle;
 
 public class rush_freak extends Cocos2dxActivity{
 
+	private static rush_freak _activity = null;
+
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 	}
 	
     static {
          System.loadLibrary("game");
+    }
+
+    public static rush_freak getActivity() {
+        return _activity;
     }
 }
