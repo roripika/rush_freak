@@ -11,6 +11,8 @@
 
 #include "cocos2d.h"
 #include "ShuttleModel.h"
+#include "CountNumberSprite.h"
+#include "ScoreLayer.h"
 
 /**
  * スペースシャトルのゲームプレイ
@@ -32,9 +34,13 @@ protected:
     cocos2d::CCLabelTTF * m_SpeedLabel;
     cocos2d::CCLabelTTF * m_PowerLabel;
     
-    long m_PowerPoint;
+    CountNumberSprite * m_CountSprite;
+    
+    bool m_moveShuttle;
+    
     long m_Score;
     long m_HiScore;
+
     
     enum SHOT_SECNE
     {
@@ -43,12 +49,15 @@ protected:
         SSHOT_READY,
         SSHOT_START_COUNT,
         SSHOT_PUSH_PLAY,
-        SSHOT_SHUTTLE_ANIME,
+        SSHOT_SHUTTLE_TAKEOFF,
+        SSHOT_SHUTTLE_MOVE,
         SSHOT_SCORE,
         SSHOT_RETRY
     };
     
     SHOT_SECNE m_shotSceneState;
+    
+    ScoreLayer * m_ScoreBackGround;
 
     /**
      * 設定をシーンによって変える
@@ -59,6 +68,11 @@ protected:
      * 次の設定シーンを取得する
      */
     virtual SHOT_SECNE nextShotSceneSelecter(SHOT_SECNE val);
+    
+    /**
+     * 画面更新
+     */
+    virtual void update(float delta);
     
 public:
     static cocos2d::CCScene* scene();
@@ -89,7 +103,7 @@ public:
     /**
      * 数値関連の数値更新
      */
-    virtual void refleshStetusLabel();
+    virtual void refreshStetusLabel();
     
     /**
      * UIオブジェクトの表示非表示
@@ -117,6 +131,20 @@ public:
      */
     virtual void launchShuttleAnime();
     
+    /**
+     * シャトル飛ぶ
+     */
+    virtual void launchShuttleMove();
+    
+    /**
+     * スコア表示
+     */
+    virtual void scoreView();
+
+    /**
+     * リトライ表示
+     */
+    virtual void retryView();
 };
 
 #endif /* defined(__rendaPower__PlayScene__) */

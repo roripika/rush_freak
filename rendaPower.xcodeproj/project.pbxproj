@@ -14,6 +14,8 @@
 		57055F2D18B30A2000EEC416 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57055F2C18B30A2000EEC416 /* Images.xcassets */; };
 		57055F2F18B5265900EEC416 /* logo in Resources */ = {isa = PBXBuildFile; fileRef = 57055F2E18B5265900EEC416 /* logo */; };
 		5785DA3319359FD600E15900 /* CountNumberSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5785DA3119359FD600E15900 /* CountNumberSprite.cpp */; };
+		5798D939193988B400111632 /* SmorkManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5798D937193988B400111632 /* SmorkManager.cpp */; };
+		5798D93C193B823100111632 /* ScoreLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5798D93A193B823100111632 /* ScoreLayer.cpp */; };
 		57A2A7291933AEF1001322C2 /* ShuttleModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57A2A7271933AEF1001322C2 /* ShuttleModel.cpp */; };
 		57AAACA4185EBB3600092891 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57AAACA3185EBB3600092891 /* QuartzCore.framework */; };
 		57AAACA6185EBB3600092891 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57AAACA5185EBB3600092891 /* OpenGLES.framework */; };
@@ -292,6 +294,10 @@
 		57055F2E18B5265900EEC416 /* logo */ = {isa = PBXFileReference; lastKnownFileType = folder; name = logo; path = rendaPower/Resources/logo; sourceTree = SOURCE_ROOT; };
 		5785DA3119359FD600E15900 /* CountNumberSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CountNumberSprite.cpp; sourceTree = "<group>"; };
 		5785DA3219359FD600E15900 /* CountNumberSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountNumberSprite.h; sourceTree = "<group>"; };
+		5798D937193988B400111632 /* SmorkManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmorkManager.cpp; sourceTree = "<group>"; };
+		5798D938193988B400111632 /* SmorkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmorkManager.h; sourceTree = "<group>"; };
+		5798D93A193B823100111632 /* ScoreLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScoreLayer.cpp; sourceTree = "<group>"; };
+		5798D93B193B823100111632 /* ScoreLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoreLayer.h; sourceTree = "<group>"; };
 		57A2A7271933AEF1001322C2 /* ShuttleModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShuttleModel.cpp; sourceTree = "<group>"; };
 		57A2A7281933AEF1001322C2 /* ShuttleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShuttleModel.h; sourceTree = "<group>"; };
 		57AAACA0185EBB3600092891 /* rendaPower.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rendaPower.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2137,6 +2143,10 @@
 				57BE6DA718B900CE004514A8 /* ShuttleScene.h */,
 				5785DA3119359FD600E15900 /* CountNumberSprite.cpp */,
 				5785DA3219359FD600E15900 /* CountNumberSprite.h */,
+				5798D937193988B400111632 /* SmorkManager.cpp */,
+				5798D938193988B400111632 /* SmorkManager.h */,
+				5798D93A193B823100111632 /* ScoreLayer.cpp */,
+				5798D93B193B823100111632 /* ScoreLayer.h */,
 			);
 			name = ShuttleGame;
 			sourceTree = "<group>";
@@ -2279,6 +2289,7 @@
 				57AAAD83185EBB3700092891 /* vec4.c in Sources */,
 				57AAB023185EBB3B00092891 /* cpCollision.c in Sources */,
 				57AAAF8E185EBB3A00092891 /* HttpClient.cpp in Sources */,
+				5798D939193988B400111632 /* SmorkManager.cpp in Sources */,
 				57AAAFA7185EBB3A00092891 /* Atlas.cpp in Sources */,
 				57AAAD29185EBB3700092891 /* CCGeometry.cpp in Sources */,
 				57AAACE2185EBB3600092891 /* CCActionEase.cpp in Sources */,
@@ -2288,6 +2299,7 @@
 				57AAAF93185EBB3A00092891 /* WebSocket.cpp in Sources */,
 				57AAAD1A185EBB3700092891 /* CCArray.cpp in Sources */,
 				57AAAE9D185EBB3900092891 /* CCTextureAtlas.cpp in Sources */,
+				5798D93C193B823100111632 /* ScoreLayer.cpp in Sources */,
 				57AAAD97185EBB3700092891 /* CCLayer.cpp in Sources */,
 				57AAB00B185EBB3B00092891 /* cpGrooveJoint.c in Sources */,
 				57AAAFA1185EBB3A00092891 /* AnimationState.cpp in Sources */,
