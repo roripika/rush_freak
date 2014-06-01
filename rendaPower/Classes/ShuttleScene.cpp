@@ -8,13 +8,13 @@
 
 #include "ShuttleScene.h"
 
-#define DEF_PRINTSTR_HISCORE    ("HiScore: %8d")
-#define DEF_PRINTSTR_SCORE      ("Score  : %8d")
+#define DEF_PRINTSTR_HISCORE    ("HiScore: %8ld")
+#define DEF_PRINTSTR_SCORE      ("Score  : %8ld")
 #define DEF_PRINTSTR_SPEED      ("Speed: %4ld")
 #define DEF_PRINTSTR_POWER      ("Power: %4ld")
 
 
-#define DEF_BG_HEIGHT   (4000)
+#define DEF_BG_HEIGHT   (5000)
 
 #define DEF_TAG_RUSH_BTN (10000)
 
@@ -38,7 +38,12 @@ ShuttleScene::ShuttleScene()
 ,m_CloudSprite1(NULL)
 ,m_CloudSprite2(NULL)
 ,m_BackGroundLayer(NULL)
+,m_CountSprite(NULL)
 ,m_shotSceneState(SSHOT_NONE)
+,m_moveShuttle(false)
+,m_Score(0)
+,m_HiScore(0)
+,m_ScoreBackGround(NULL)
 {
     
 }
@@ -77,8 +82,8 @@ bool ShuttleScene::init()
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
     //背景
-    m_BackGroundLayer = CCLayerGradient::create(ccc4(0x0, 0x0, 0x0, 0xFF), ccc4(0x7f, 0x7f, 0x7f, 0x7f));
-    this->m_BackGroundLayer->setContentSize(CCSizeMake(size.width, DEF_BG_HEIGHT));
+    m_BackGroundLayer = CCLayerGradient::create(ccc4(0x0, 0x0, 0x0, 0xFF), ccc4(0x3a, 0x3a, 0x3a, 0xff));
+    this->m_BackGroundLayer->setContentSize(CCSizeMake(size.width, DEF_BG_HEIGHT + size.height));
     this->addChild(this->m_BackGroundLayer,0);
     
     this->m_PlanetSprite = CCSprite::create("base/planet.png");
@@ -113,13 +118,15 @@ bool ShuttleScene::init()
     
     //UIの初期位置設定
     char buff[100] = "";
+    this->m_HiScore = CCUserDefault::sharedUserDefault()->getIntegerForKey("HiScore", 0);
+    
     //ハイスコア
-    sprintf(buff,DEF_PRINTSTR_HISCORE,0);
+    sprintf(buff,DEF_PRINTSTR_HISCORE,this->m_HiScore);
     this->m_HiScoreLabel = CCLabelTTF::create(buff, "Helvetica", 48);
     this->m_HiScoreLabel->setAnchorPoint(ccp(0.0,1.0f));
     this->m_HiScoreLabel->setPosition(ccp(0,size.height));
     //スコア
-    sprintf(buff,DEF_PRINTSTR_SCORE,0);
+    sprintf(buff,DEF_PRINTSTR_SCORE,this->m_Score);
     this->m_ScoreLabel = CCLabelTTF::create(buff, "Helvetica", 48);
     this->m_ScoreLabel->setAnchorPoint(ccp(0.0,1.0f));
     this->m_ScoreLabel->setPosition(
@@ -158,9 +165,27 @@ bool ShuttleScene::init()
     this->m_menu->setPosition(0, 0);
     this->m_ReadyLabel->setPosition(ccp(size.width * 0.5f,size.height * 0.5f));
     
+    //カウントダウンスプライト
+    this->m_CountSprite = CountNumberSprite::create();
+    this->m_CountSprite->setAdd(1);
+    this->m_CountSprite->setInterval(2.0f);
+    this->m_CountSprite->setMax(5);
+    this->m_CountSprite->setMin(0);
+    this->m_CountSprite->setType(CT_DOWN);
+    this->m_CountSprite->setEndCallback(this, callfunc_selector(ShuttleScene::shotChenge));
+    this->m_CountSprite->setPosition(ccp(size.width * 0.5f,size.height * 0.25f));
+    this->addChild(this->m_CountSprite,DEF_Z_UI);
+
+    //スコア表示画面
+    this->m_ScoreBackGround = ScoreLayer::create();
+    this->m_ScoreBackGround->setPosition(ccp(0,0));
+    this->m_ScoreBackGround->setVisible(false);
+    this->m_ScoreBackGround->setRetryCallback(this, callfunc_selector(ShuttleScene::shotChenge));
+    this->addChild(this->m_ScoreBackGround,DEF_Z_UI + 1);
+    
     //開始
     shotChenge();
-
+    
     return true;
 }
 
@@ -169,8 +194,6 @@ bool ShuttleScene::init()
  */
 void ShuttleScene::settingShotSceneObject(SHOT_SECNE val)
 {
-    CCSize size = CCDirector::sharedDirector()->getWinSize();
-    
     switch (val) {
         case SSHOT_INIT: //初期準備
             this->planetLookAnime();
@@ -181,11 +204,18 @@ void ShuttleScene::settingShotSceneObject(SHOT_SECNE val)
         case SSHOT_PUSH_PLAY:
             this->pushRushPlay();
             break;
-        case SSHOT_SHUTTLE_ANIME:
+        case SSHOT_SHUTTLE_TAKEOFF:
             this->launchShuttleAnime();
             break;
+        case SSHOT_SHUTTLE_MOVE:
+            this->launchShuttleMove();
+            break;
         case SSHOT_SCORE:
+            this->scoreView();
+            break;
         case SSHOT_RETRY:
+            this->retryView();
+            break;
             
         default:
             break;
@@ -206,14 +236,18 @@ ShuttleScene::SHOT_SECNE ShuttleScene::nextShotSceneSelecter(SHOT_SECNE val)
             ret = SSHOT_PUSH_PLAY;
             break;
         case SSHOT_PUSH_PLAY:
-            ret = SSHOT_SHUTTLE_ANIME;
+            ret = SSHOT_SHUTTLE_TAKEOFF;
             break;
-        case SSHOT_SHUTTLE_ANIME:
+        case SSHOT_SHUTTLE_TAKEOFF:
+            ret = SSHOT_SHUTTLE_MOVE;
+            break;
+        case SSHOT_SHUTTLE_MOVE:
             ret = SSHOT_SCORE;
             break;
         case SSHOT_SCORE:
+            ret = SSHOT_RETRY;
+            break;
         case SSHOT_RETRY:
-            
         default:
             ret = SSHOT_INIT;
             break;
@@ -228,7 +262,7 @@ ShuttleScene::SHOT_SECNE ShuttleScene::nextShotSceneSelecter(SHOT_SECNE val)
 void ShuttleScene::shotChenge()
 {
     //数値更新
-    this->refleshStetusLabel();
+    this->refreshStetusLabel();
 
     //次のシーンを選択
     this->m_shotSceneState = nextShotSceneSelecter(m_shotSceneState);
@@ -251,22 +285,22 @@ void ShuttleScene::tapRushButton()
     this->m_RocketSprite->chargeEnergy();
     
     //項目の更新
-    this->refleshStetusLabel();
+    this->refreshStetusLabel();
 }
 
 /**
  * 数値関連の数値更新
  */
-void ShuttleScene::refleshStetusLabel()
+void ShuttleScene::refreshStetusLabel()
 {
     char buff[100];
     
     //ハイスコア
-    sprintf(buff,DEF_PRINTSTR_HISCORE,0);
+    sprintf(buff,DEF_PRINTSTR_HISCORE,this->m_HiScore);
     this->m_HiScoreLabel->setString(buff);
     
     //スコア
-    sprintf(buff,DEF_PRINTSTR_SCORE,0);
+    sprintf(buff,DEF_PRINTSTR_SCORE,this->m_Score);
     this->m_ScoreLabel->setString(buff);
     
     //スピードラベル
@@ -289,6 +323,37 @@ void ShuttleScene::UIsVisible(bool val)
     this->m_SpeedLabel->setVisible(val);
     this->m_PowerLabel->setVisible(val);
 }
+/**
+ * 画面更新
+ */
+void ShuttleScene::update(float delta)
+{
+    CCNode::update(delta);
+    
+    CCSize size = CCDirector::sharedDirector()->getWinSize();
+    
+    //テイクオフ後の打ち上げに追従する
+    if(m_moveShuttle)
+    {
+        CCPoint roketPos = this->m_RocketSprite->getPosition();
+        CCPoint bkgPos = ccpSub(roketPos, ccp(size.width * 0.5f,size.height * 0.5f));
+        this->m_BackGroundLayer->setPosition(-bkgPos);
+
+        m_Score = bkgPos.y;
+        
+        this->m_PlanetSprite->setScale( 1.0f + (-this->m_BackGroundLayer->getPosition().y / DEF_BG_HEIGHT) * 2 );
+        
+        //終了条件
+        if(this->m_RocketSprite->getSpeed() <= 0
+           || -this->m_BackGroundLayer->getPosition().y >= DEF_BG_HEIGHT)
+        {
+            //ページ切り替え
+            this->shotChenge();
+        }
+        
+        this->refreshStetusLabel();
+    }
+}
 
 #pragma mark カットシーン処理類
 /**
@@ -297,10 +362,18 @@ void ShuttleScene::UIsVisible(bool val)
 void ShuttleScene::planetLookAnime()
 {
     CCSize size = CCDirector::sharedDirector()->getWinSize();
+    
+    //ラベル類初期化
     this->m_ReadyLabel->setVisible(false);
+    this->m_CountSprite->setVisible(false);
+    this->m_CountSprite->resetCount();
+    this->m_ScoreBackGround->setVisible(false);
+    
     //ロケット初期位置
     this->m_RocketSprite->setPosition(size.width * 0.5f,size.height * 0.5f);
     this->m_RocketSprite->resetParam();
+
+    this->m_PlanetSprite->setScale(1.0f);
     
     //雲の配置
     this->m_CloudSprite1->setPosition(ccp(this->m_PlanetSprite->getPosition().x - 30.0f,
@@ -357,12 +430,9 @@ void ShuttleScene::readyCheck()
 void ShuttleScene::pushRushPlay()
 {
     this->m_ReadyLabel->setVisible(false);
-    
-    CCArray *seq = CCArray::create();
-    seq->addObject(CCDelayTime::create(DEF_RUSH_TIME));
-    seq->addObject(CCCallFunc::create(this,callfunc_selector(ShuttleScene::shotChenge)));
-    
-    this->runAction(CCSequence::create(seq));
+    this->m_CountSprite->setVisible(true);
+
+    this->m_CountSprite->startCount();
 }
 /**
  * シャトル発射
@@ -370,5 +440,56 @@ void ShuttleScene::pushRushPlay()
 void ShuttleScene::launchShuttleAnime()
 {
     this->m_menu->setVisible(false);
+    this->m_CountSprite->setVisible(false);
+    
+    this->m_RocketSprite->rocketStart(this, callfunc_selector(ShuttleScene::shotChenge));
 }
+
+/**
+ * シャトル飛ぶ
+ */
+void ShuttleScene::launchShuttleMove()
+{
+    CCArray * seq = CCArray::create();
+    seq->addObject(CCDelayTime::create(0.5f));
+    seq->addObject( CCCallFunc::create(this,callfunc_selector(ShuttleScene::scheduleUpdate)));
+    runAction(CCSequence::create(seq));
+    
+    this->m_moveShuttle = true;
+}
+/**
+ * スコア表示
+ */
+void ShuttleScene::scoreView()
+{
+    //アップデート停止
+    this->unscheduleUpdate();
+    
+    this->m_moveShuttle = false;
+    
+    if(this->m_HiScore < this->m_Score)
+    {
+        this->m_HiScore = this->m_Score;
+        CCUserDefault::sharedUserDefault()->setIntegerForKey("HiScore", this->m_HiScore);
+    }
+    
+    this->m_ScoreBackGround->setVisible(true);
+    this->m_ScoreBackGround->setScore(this->m_Score, this->m_HiScore);
+    this->m_ScoreBackGround->setVisibleRetryButton(false);
+    
+    //すぐ次のシーン
+    CCArray * seq = CCArray::create();
+    seq->addObject(CCDelayTime::create(1));
+    seq->addObject(CCCallFunc::create(this, callfunc_selector(ShuttleScene::shotChenge)));    
+    this->runAction(CCSequence::create(seq));
+}
+
+/**
+ * リトライ表示
+ */
+void ShuttleScene::retryView()
+{
+    this->m_ScoreBackGround->setVisibleRetryButton(true);
+}
+
 

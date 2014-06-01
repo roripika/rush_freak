@@ -20,11 +20,11 @@ typedef enum _COUNT_TYPE
 /**
  * カウントダウンスプライトクラス
  */
-class CountNumberSprite : cocos2d::CCNode
+class CountNumberSprite : public cocos2d::CCNode
 {
 protected:
-    CCObject* m_EndCallbackTarget;
-    SEL_CallFunc m_EndCallback;
+    cocos2d::CCObject* m_EndCallbackTarget;
+    cocos2d::SEL_CallFunc m_EndCallback;
     
     long m_MinCount;    //最大値
     long m_MaxCount;    //最小値
@@ -40,13 +40,20 @@ protected:
     
     void onCountEnd();
     
+    cocos2d::CCLabelTTF *m_countLabel;
+    
 public:
     
     CREATE_FUNC(CountNumberSprite);
     virtual bool init();
 
     CountNumberSprite();
-    ~CountNumberSprite();
+    virtual ~CountNumberSprite();
+
+    /**
+     * コールバックの設定
+     */
+    void setEndCallback(cocos2d::CCObject* endCallbackTarget,cocos2d::SEL_CallFunc endCallback);
 
     void startCount();
     void stopCount();
@@ -58,8 +65,8 @@ public:
     long getMin();
     void setMax(long val);
     long getMax();
-    void setAdd();
-    void getAdd();
+    void setAdd(long val);
+    long getAdd();
     void setInterval(long val);
     long getInterval();
     
