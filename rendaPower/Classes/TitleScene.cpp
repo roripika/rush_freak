@@ -9,6 +9,7 @@
 #include "TitleScene.h"
 #include "SelectMenuScene.h"
 #include "SimpleAudioEngine.h"
+#include "NativeCodeAst.h"
 
 using namespace cocos2d;
 using namespace CocosDenshion;
@@ -37,6 +38,10 @@ bool TitleScene::init()
     {
         return false;
     }
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    AstExt::NativeCodeAst::showAst();
+#endif
     
     CCSize size = CCDirector::sharedDirector()->getWinSize();
 
@@ -74,6 +79,10 @@ void TitleScene::NextScene(CCObject*obj)
 {
     CCSprite *sprite = static_cast<CCSprite*>(this->getChildByTag(5000));
     sprite->stopAllActions();
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    AstExt::NativeCodeAst::hideAst();
+#endif
     
     CCDirector::sharedDirector()->replaceScene(SelectMenuScene::scene());
 }

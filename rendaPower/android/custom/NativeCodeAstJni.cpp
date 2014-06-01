@@ -6,7 +6,7 @@
 
 // CLASS_NAMEの部分はJavaのクラス名となりますので、
 // <スラッシュ区切りのpkgname>/NativeCodeAst のようにします
-#define  CLASS_NAME "net/astrsk/myproject/NativeCodeAst"
+#define  CLASS_NAME "com/nagohiyo/rush_freak/NativeCodeAst"
 
 void NativeCodeAstJni::showAstJni()
 {
