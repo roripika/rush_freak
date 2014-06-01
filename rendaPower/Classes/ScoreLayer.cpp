@@ -51,12 +51,12 @@ bool ScoreLayer::init()
     this->m_ScoreLabel->setPosition(ccp(size.width * 0.75f , size.height * 0.5f));
 
     //リトライ
-    CCLabelTTF *retrylabel = CCLabelTTF::create("[Retry?]", "Helvetica", 50,CCSizeMake(280, 50),kCCTextAlignmentCenter);
+    CCLabelTTF *retrylabel = CCLabelTTF::create("[Retry?]", "Helvetica", 50,CCSizeMake(280, 60),kCCTextAlignmentCenter);
     this->m_RetryLabelButton = CCMenuItemLabel::create(retrylabel,this,menu_selector(ScoreLayer::onRetry));
     this->m_RetryLabelButton->setPosition(ccp(size.width * 0.25f,size.height * 0.25f));
 
     //トップ画面
-    CCLabelTTF *toplabel = CCLabelTTF::create("[Top Menu?]", "Helvetica", 50,CCSizeMake(280, 50),kCCTextAlignmentCenter);
+    CCLabelTTF *toplabel = CCLabelTTF::create("[Top Menu?]", "Helvetica", 50,CCSizeMake(280, 60),kCCTextAlignmentCenter);
     this->m_TopLabelButton = CCMenuItemLabel::create(toplabel,this,menu_selector(ScoreLayer::onMoveSceneTop));
     this->m_TopLabelButton->setPosition(ccp(size.width * 0.75f,size.height *0.25f));
 

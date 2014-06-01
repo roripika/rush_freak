@@ -33,6 +33,9 @@ public class rush_freak extends Cocos2dxActivity{
 
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		 
+		if (_activity == null) _activity = this;
+		 
 	}
 	
     static {
