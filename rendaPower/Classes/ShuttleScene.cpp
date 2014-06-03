@@ -8,10 +8,10 @@
 
 #include "ShuttleScene.h"
 
-#define DEF_PRINTSTR_HISCORE    ("HiScore: %8ld")
-#define DEF_PRINTSTR_SCORE      ("Score  : %8ld")
-#define DEF_PRINTSTR_SPEED      ("Speed: %4ld")
-#define DEF_PRINTSTR_POWER      ("Power: %4ld")
+#define DEF_PRINTSTR_HISCORE    ("HiScore %8ld")
+#define DEF_PRINTSTR_SCORE      ("Score   %8ld")
+#define DEF_PRINTSTR_SPEED      ("Speed %4ld")
+#define DEF_PRINTSTR_POWER      ("Power %4ld")
 
 
 #define DEF_BG_HEIGHT   (5000)
@@ -122,12 +122,12 @@ bool ShuttleScene::init()
     
     //ハイスコア
     sprintf(buff,DEF_PRINTSTR_HISCORE,this->m_HiScore);
-    this->m_HiScoreLabel = CCLabelTTF::create(buff, "Helvetica", 48);
+    this->m_HiScoreLabel = CCLabelBMFont::create(buff, "base/bmfRocket.fnt");
     this->m_HiScoreLabel->setAnchorPoint(ccp(0.0,1.0f));
     this->m_HiScoreLabel->setPosition(ccp(0,size.height));
     //スコア
     sprintf(buff,DEF_PRINTSTR_SCORE,this->m_Score);
-    this->m_ScoreLabel = CCLabelTTF::create(buff, "Helvetica", 48);
+    this->m_ScoreLabel = CCLabelBMFont::create(buff, "base/bmfRocket.fnt");
     this->m_ScoreLabel->setAnchorPoint(ccp(0.0,1.0f));
     this->m_ScoreLabel->setPosition(
                                     ccp(0,
@@ -135,18 +135,18 @@ bool ShuttleScene::init()
                                         this->m_HiScoreLabel->getContentSize().height));
 
     //レディーラベル
-    this->m_ReadyLabel = CCLabelTTF::create("", "Helvetica", 48);
+    this->m_ReadyLabel = CCLabelBMFont::create("", "base/bmfRocket.fnt");
     this->m_ReadyLabel->setPosition(ccp(size.width * 0.5f,size.height * 0.5f));
 
     //スピードラベル
     sprintf(buff,DEF_PRINTSTR_SPEED,0L);
-    this->m_SpeedLabel = CCLabelTTF::create(buff, "Helvetica", 48);
+    this->m_SpeedLabel = CCLabelBMFont::create(buff, "base/bmfRocket.fnt");
     this->m_SpeedLabel->setAnchorPoint(ccp(0,0));
     this->m_SpeedLabel->setPosition(ccp(0,0));
     
     //パワーラベル
     sprintf(buff,DEF_PRINTSTR_POWER,0L);
-    this->m_PowerLabel = CCLabelTTF::create(buff, "Helvetica", 48);
+    this->m_PowerLabel = CCLabelBMFont::create(buff, "base/bmfRocket.fnt");
     this->m_PowerLabel->setAnchorPoint(ccp(0,0));
     this->m_PowerLabel->setPosition(ccp(0,
                                         this->m_SpeedLabel->getContentSize().height));

@@ -40,7 +40,7 @@ protected:
     
     void onCountEnd();
     
-    cocos2d::CCLabelTTF *m_countLabel;
+    cocos2d::CCLabelBMFont *m_countLabel;
     
 public:
     

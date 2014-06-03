@@ -28,11 +28,11 @@ protected:
     
     cocos2d::CCMenu * m_menu;
     
-    cocos2d::CCLabelTTF * m_HiScoreLabel;
-    cocos2d::CCLabelTTF * m_ScoreLabel;
-    cocos2d::CCLabelTTF * m_ReadyLabel;
-    cocos2d::CCLabelTTF * m_SpeedLabel;
-    cocos2d::CCLabelTTF * m_PowerLabel;
+    cocos2d::CCLabelBMFont * m_HiScoreLabel;
+    cocos2d::CCLabelBMFont * m_ScoreLabel;
+    cocos2d::CCLabelBMFont * m_ReadyLabel;
+    cocos2d::CCLabelBMFont * m_SpeedLabel;
+    cocos2d::CCLabelBMFont * m_PowerLabel;
     
     CountNumberSprite * m_CountSprite;
     

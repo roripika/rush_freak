@@ -17,7 +17,7 @@ bool CountNumberSprite::init()
         return false;
     }
     
-    this->m_countLabel = CCLabelTTF::create("0", "Helvecica", 60,CCSizeMake(70, 70),kCCTextAlignmentCenter);
+    this->m_countLabel = CCLabelBMFont::create("0", "base/bmfRocket.fnt", 60,kCCTextAlignmentCenter);
     this->m_countLabel->setAnchorPoint(ccp(0,0));
     this->addChild(this->m_countLabel);
     
