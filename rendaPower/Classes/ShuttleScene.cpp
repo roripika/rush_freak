@@ -14,7 +14,7 @@
 #define DEF_PRINTSTR_POWER      ("Power %4ld")
 
 
-#define DEF_BG_HEIGHT   (5000)
+#define DEF_BG_HEIGHT   (4000)
 
 #define DEF_TAG_RUSH_BTN (10000)
 
@@ -82,8 +82,18 @@ bool ShuttleScene::init()
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
     //背景
+    CCSprite * backGroundUp = CCSprite::create("base/rocketBackGraund_up.png");
+    CCSprite * backGroundDown = CCSprite::create("base/rocketBackGraund_down.png");
     m_BackGroundLayer = CCLayerGradient::create(ccc4(0x0, 0x0, 0x0, 0xFF), ccc4(0x3a, 0x3a, 0x3a, 0xff));
     this->m_BackGroundLayer->setContentSize(CCSizeMake(size.width, DEF_BG_HEIGHT + size.height));
+    this->m_BackGroundLayer->addChild(backGroundUp,1);
+    this->m_BackGroundLayer->addChild(backGroundDown,1);
+    backGroundUp->setAnchorPoint(ccp(0.5f,0.0f));
+    backGroundUp->setPosition(ccp(this->m_BackGroundLayer->getContentSize().width * 0.5f,
+                                  this->m_BackGroundLayer->getContentSize().height * 0.5f));
+    backGroundDown->setAnchorPoint(ccp(0.5f,1.0f));
+    backGroundDown->setPosition(ccp(this->m_BackGroundLayer->getContentSize().width * 0.5f,
+                                  this->m_BackGroundLayer->getContentSize().height * 0.5f));
     this->addChild(this->m_BackGroundLayer,0);
     
     this->m_PlanetSprite = CCSprite::create("base/planet.png");
@@ -91,17 +101,17 @@ bool ShuttleScene::init()
     this->m_CloudSprite1 = CCSprite::create("base/kumo.png");
     this->m_CloudSprite2 = CCSprite::create("base/kumo.png");
     
-    this->m_BackGroundLayer->addChild(this->m_PlanetSprite, 0);
-    this->m_BackGroundLayer->addChild(this->m_CloudSprite1, 5);
-    this->m_BackGroundLayer->addChild(this->m_CloudSprite2, 6);
-    this->m_BackGroundLayer->addChild(this->m_RocketSprite, 10);
+    this->m_BackGroundLayer->addChild(this->m_PlanetSprite, 10);
+    this->m_BackGroundLayer->addChild(this->m_CloudSprite1, 15);
+    this->m_BackGroundLayer->addChild(this->m_CloudSprite2, 16);
+    this->m_BackGroundLayer->addChild(this->m_RocketSprite, 20);
     
     
     // position the sprite on the center of the screen
     this->m_PlanetSprite->setPosition(
                                       ccp(
                                           size.width * 0.5f,
-                                        DEF_BG_HEIGHT- size.height * 0.5f) );
+                                        DEF_BG_HEIGHT + size.height * 0.5f) );
 
     this->m_menu = CCMenu::create();
     
@@ -341,11 +351,11 @@ void ShuttleScene::update(float delta)
 
         m_Score = bkgPos.y;
         
-        this->m_PlanetSprite->setScale( 1.0f + (-this->m_BackGroundLayer->getPosition().y / DEF_BG_HEIGHT) * 2 );
+        this->m_PlanetSprite->setScale( 1.0f + (-this->m_BackGroundLayer->getPosition().y / DEF_BG_HEIGHT) * 3 );
         
         //終了条件
         if(this->m_RocketSprite->getSpeed() <= 0
-           || -this->m_BackGroundLayer->getPosition().y >= DEF_BG_HEIGHT)
+           || this->m_BackGroundLayer->getPosition().y + DEF_BG_HEIGHT <= 0)
         {
             //ページ切り替え
             this->shotChenge();
@@ -388,7 +398,7 @@ void ShuttleScene::planetLookAnime()
     //背景見上げる
     this->m_BackGroundLayer->setPosition(
                                          ccp(this->m_BackGroundLayer->getPosition().x,
-                                             -DEF_BG_HEIGHT + size.height));
+                                             - DEF_BG_HEIGHT));
     CCArray * seqlist = CCArray::create();
     seqlist->addObject(CCDelayTime::create(2.5f));
     seqlist->addObject(CCMoveTo::create(1.5f, ccp(this->m_BackGroundLayer->getPosition().x,0)));
