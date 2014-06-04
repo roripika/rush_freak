@@ -8,6 +8,7 @@
 
 #include "SelectMenuScene.h"
 #include "SimpleAudioEngine.h"
+#include "SoundDef.h"
 
 #include "ShuttleScene.h"
 
@@ -74,6 +75,8 @@ bool SelectMenuScene::init()
  */
 void SelectMenuScene::ShuttleScene(CCObject*obj)
 {
+    SimpleAudioEngine::sharedEngine()->playEffect(DEF_SE_SELECT);
+    
     CCDirector::sharedDirector()->replaceScene(ShuttleScene::scene());
 }
 
