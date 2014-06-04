@@ -10,6 +10,7 @@
 #include "SelectMenuScene.h"
 #include "SimpleAudioEngine.h"
 #include "NativeCodeAst.h"
+#include "SoundDef.h"
 
 using namespace cocos2d;
 using namespace CocosDenshion;
@@ -69,6 +70,9 @@ bool TitleScene::init()
     
     // add the sprite as a child to this layer
     this->addChild(pSprite, 0);
+
+    //音声ファイル読み込み
+    SimpleAudioEngine::sharedEngine()->preloadEffect(DEF_SE_SELECT);
     
     return true;
 }
@@ -83,6 +87,8 @@ void TitleScene::NextScene(CCObject*obj)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     AstExt::NativeCodeAst::hideAst();
 #endif
+    
+    SimpleAudioEngine::sharedEngine()->playEffect(DEF_SE_SELECT);
     
     CCDirector::sharedDirector()->replaceScene(SelectMenuScene::scene());
 }

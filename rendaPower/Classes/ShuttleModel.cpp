@@ -7,8 +7,11 @@
 //
 
 #include "ShuttleModel.h"
+#include "SimpleAudioEngine.h"
+#include "SoundDef.h"
 
 USING_NS_CC;
+using namespace CocosDenshion;
 
 const unsigned long ShuttleModel::CHARGE_ADD = 10;
 const unsigned long ShuttleModel::CHARGE_MAX = 1500;
@@ -38,7 +41,11 @@ bool ShuttleModel::init()
     {
         return false;
     }
-        
+
+    SimpleAudioEngine::sharedEngine()->preloadEffect(DEF_SE_TAKEOFF);
+    SimpleAudioEngine::sharedEngine()->preloadEffect(DEF_SE_RUSH);
+    SimpleAudioEngine::sharedEngine()->preloadEffect(DEF_SE_ROCKET_READY);
+    
     if(this->m_RocketSprite)this->m_RocketSprite->removeFromParent();
     this->m_RocketSprite = CCSprite::create("base/rocket.png");
     this->addChild(this->m_RocketSprite,10);
@@ -80,6 +87,8 @@ void ShuttleModel::chargeEnergy()
 {
     if(this->m_Energy < CHARGE_MAX)
     {
+        SimpleAudioEngine::sharedEngine()->playEffect(DEF_SE_RUSH);
+        
         this->m_Energy += CHARGE_ADD;
         if(this->m_Energy > CHARGE_MAX)
         {
@@ -105,6 +114,8 @@ void ShuttleModel::resetParam()
  */
 void ShuttleModel::rocketStart(cocos2d::CCObject* takeoffCallbackTarget,cocos2d::SEL_CallFunc takeoffCallback)
 {
+    SimpleAudioEngine::sharedEngine()->playEffect(DEF_SE_ROCKET_READY);
+    
     //煙吹き出し
     this->m_smork->setVisible(true);
     this->m_smork->resetSystem();
@@ -130,6 +141,8 @@ void ShuttleModel::rocketStart(cocos2d::CCObject* takeoffCallbackTarget,cocos2d:
  */
 void ShuttleModel::takeoff()
 {
+    SimpleAudioEngine::sharedEngine()->playEffect(DEF_SE_TAKEOFF);
+
     this->m_runAcceleration = true;
 
     this->m_smork->setGravity(ccp(0,0));

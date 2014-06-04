@@ -13,6 +13,7 @@
 		57055F2918B0A56A00EEC416 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 57055F2818B0A56A00EEC416 /* Info.plist */; };
 		57055F2D18B30A2000EEC416 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57055F2C18B30A2000EEC416 /* Images.xcassets */; };
 		57055F2F18B5265900EEC416 /* logo in Resources */ = {isa = PBXBuildFile; fileRef = 57055F2E18B5265900EEC416 /* logo */; };
+		577C57E1193F818C00CBEBE6 /* sound in Resources */ = {isa = PBXBuildFile; fileRef = 577C57E0193F818C00CBEBE6 /* sound */; };
 		5785DA3319359FD600E15900 /* CountNumberSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5785DA3119359FD600E15900 /* CountNumberSprite.cpp */; };
 		5798D939193988B400111632 /* SmorkManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5798D937193988B400111632 /* SmorkManager.cpp */; };
 		5798D93C193B823100111632 /* ScoreLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5798D93A193B823100111632 /* ScoreLayer.cpp */; };
@@ -292,6 +293,8 @@
 		57055F2818B0A56A00EEC416 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = rendaPower/Resources/Info.plist; sourceTree = SOURCE_ROOT; };
 		57055F2C18B30A2000EEC416 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		57055F2E18B5265900EEC416 /* logo */ = {isa = PBXFileReference; lastKnownFileType = folder; name = logo; path = rendaPower/Resources/logo; sourceTree = SOURCE_ROOT; };
+		577C57E0193F818C00CBEBE6 /* sound */ = {isa = PBXFileReference; lastKnownFileType = folder; name = sound; path = rendaPower/Resources/sound; sourceTree = SOURCE_ROOT; };
+		577C57E2193F830100CBEBE6 /* SoundDef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SoundDef.h; sourceTree = "<group>"; };
 		5785DA3119359FD600E15900 /* CountNumberSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CountNumberSprite.cpp; sourceTree = "<group>"; };
 		5785DA3219359FD600E15900 /* CountNumberSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountNumberSprite.h; sourceTree = "<group>"; };
 		5798D937193988B400111632 /* SmorkManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmorkManager.cpp; sourceTree = "<group>"; };
@@ -911,6 +914,7 @@
 			isa = PBXGroup;
 			children = (
 				5798D941193BAE2C00111632 /* NativeCodeAst.h */,
+				577C57E2193F830100CBEBE6 /* SoundDef.h */,
 			);
 			path = common;
 			sourceTree = "<group>";
@@ -963,6 +967,7 @@
 		57AAACB4185EBB3600092891 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				577C57E0193F818C00CBEBE6 /* sound */,
 				57055F2E18B5265900EEC416 /* logo */,
 				57055F2818B0A56A00EEC416 /* Info.plist */,
 				57055F2618B0A4D200EEC416 /* base */,
@@ -2217,6 +2222,7 @@
 				57055F2718B0A4D200EEC416 /* base in Resources */,
 				57055F2918B0A56A00EEC416 /* Info.plist in Resources */,
 				57AAAEDD185EBB3900092891 /* project.pbxproj in Resources */,
+				577C57E1193F818C00CBEBE6 /* sound in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -80,7 +80,8 @@ bool ShuttleScene::init()
         return false;
     }
     CCSize size = CCDirector::sharedDirector()->getWinSize();
-    
+
+        
     //背景
     CCSprite * backGroundUp = CCSprite::create("base/rocketBackGraund_up.png");
     CCSprite * backGroundDown = CCSprite::create("base/rocketBackGraund_down.png");
@@ -464,7 +465,7 @@ void ShuttleScene::launchShuttleMove()
     seq->addObject(CCDelayTime::create(0.5f));
     seq->addObject( CCCallFunc::create(this,callfunc_selector(ShuttleScene::scheduleUpdate)));
     runAction(CCSequence::create(seq));
-    
+
     this->m_moveShuttle = true;
 }
 /**
