@@ -82,18 +82,30 @@ bool ShuttleScene::init()
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
     //背景
-    CCSprite * backGroundUp = CCSprite::create("base/rocketBackGraund_up.png");
-    CCSprite * backGroundDown = CCSprite::create("base/rocketBackGraund_down.png");
+    CCSprite * backGround1 = CCSprite::create("base/rocketBackGraund_1.png");
+    CCSprite * backGround2 = CCSprite::create("base/rocketBackGraund_2.png");
+    CCSprite * backGround3 = CCSprite::create("base/rocketBackGraund_3.png");
+    CCSprite * backGround4 = CCSprite::create("base/rocketBackGraund_4.png");
     m_BackGroundLayer = CCLayerGradient::create(ccc4(0x0, 0x0, 0x0, 0xFF), ccc4(0x3a, 0x3a, 0x3a, 0xff));
     this->m_BackGroundLayer->setContentSize(CCSizeMake(size.width, DEF_BG_HEIGHT + size.height));
-    this->m_BackGroundLayer->addChild(backGroundUp,1);
-    this->m_BackGroundLayer->addChild(backGroundDown,1);
-    backGroundUp->setAnchorPoint(ccp(0.5f,0.0f));
-    backGroundUp->setPosition(ccp(this->m_BackGroundLayer->getContentSize().width * 0.5f,
-                                  this->m_BackGroundLayer->getContentSize().height * 0.5f));
-    backGroundDown->setAnchorPoint(ccp(0.5f,1.0f));
-    backGroundDown->setPosition(ccp(this->m_BackGroundLayer->getContentSize().width * 0.5f,
-                                  this->m_BackGroundLayer->getContentSize().height * 0.5f));
+    this->m_BackGroundLayer->addChild(backGround1,1);
+    this->m_BackGroundLayer->addChild(backGround2,1);
+    this->m_BackGroundLayer->addChild(backGround3,1);
+    this->m_BackGroundLayer->addChild(backGround4,1);
+    backGround1->setAnchorPoint(ccp(0.5f,0.5f));
+    backGround2->setAnchorPoint(ccp(0.5f,0.5f));
+    backGround3->setAnchorPoint(ccp(0.5f,0.5f));
+    backGround4->setAnchorPoint(ccp(0.5f,0.5f));
+    CCPoint pos = CCPointMake(this->m_BackGroundLayer->getContentSize().width * 0.5f,
+                              this->m_BackGroundLayer->getContentSize().height * 0.5f);
+    pos.y += 1875;//1250 * 2 - 1250 / 2
+    backGround1->setPosition(pos);
+    pos.y -= 1250;
+    backGround2->setPosition(pos);
+    pos.y -= 1250;
+    backGround3->setPosition(pos);
+    pos.y -= 1250;
+    backGround4->setPosition(pos);
     this->addChild(this->m_BackGroundLayer,0);
     
     this->m_PlanetSprite = CCSprite::create("base/planet.png");
