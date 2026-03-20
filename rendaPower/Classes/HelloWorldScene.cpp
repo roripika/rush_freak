@@ -1,84 +1,46 @@
 #include "HelloWorldScene.h"
-#include "SimpleAudioEngine.h"
 
-using namespace cocos2d;
-using namespace CocosDenshion;
+using namespace ax;
 
-CCScene* HelloWorld::scene()
+Scene* HelloWorld::scene()
 {
-    // 'scene' is an autorelease object
-    CCScene *scene = CCScene::create();
-    
-    // 'layer' is an autorelease object
-    HelloWorld *layer = HelloWorld::create();
-
-    // add layer as a child to scene
-    scene->addChild(layer);
-
-    // return the scene
+    auto* scene = Scene::create();
+    scene->addChild(HelloWorld::create());
     return scene;
 }
 
-// on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-    //////////////////////////////
-    // 1. super init first
-    if ( !CCLayer::init() )
+    if (!Layer::init())
     {
         return false;
     }
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
+    const auto visibleSize = Director::getInstance()->getVisibleSize();
+    const Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    // add a "close" icon to exit the progress. it's an autorelease object
-    CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
-                                        "CloseNormal.png",
-                                        "CloseSelected.png",
-                                        this,
-                                        menu_selector(HelloWorld::menuCloseCallback) );
-    pCloseItem->setPosition( ccp(CCDirector::sharedDirector()->getWinSize().width - 20, 20) );
+    auto* closeItem = MenuItemImage::create(
+        "base/CloseNormal.png",
+        "base/CloseSelected.png",
+        AX_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+    closeItem->setPosition(Vec2(origin.x + visibleSize.width - 20.0F, origin.y + 20.0F));
 
-    // create menu, it's an autorelease object
-    CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
-    pMenu->setPosition( CCPointZero );
-    this->addChild(pMenu, 1);
+    auto* menu = Menu::create(closeItem, nullptr);
+    menu->setPosition(Vec2::ZERO);
+    addChild(menu, 1);
 
-    /////////////////////////////
-    // 3. add your codes below...
+    auto* label = Label::createWithSystemFont("Hello World", "Arial", 34);
+    label->setPosition(Vec2(origin.x + visibleSize.width / 2.0F, origin.y + visibleSize.height - 40.0F));
+    addChild(label, 1);
 
-    // add a label shows "Hello World"
-    // create and initialize a label
-    CCLabelTTF* pLabel = CCLabelTTF::create("Hello World", "Thonburi", 34);
+    auto* sprite = Sprite::create("base/HelloWorld.png");
+    sprite->setPosition(Vec2(origin.x + visibleSize.width / 2.0F, origin.y + visibleSize.height / 2.0F));
+    addChild(sprite, 0);
 
-    // ask director the window size
-    CCSize size = CCDirector::sharedDirector()->getWinSize();
-
-    // position the label on the center of the screen
-    pLabel->setPosition( ccp(size.width / 2, size.height - 20) );
-
-    // add the label as a child to this layer
-    this->addChild(pLabel, 1);
-
-    // add "HelloWorld" splash screen"
-    CCSprite* pSprite = CCSprite::create("HelloWorld.png");
-
-    // position the sprite on the center of the screen
-    pSprite->setPosition( ccp(size.width/2, size.height/2) );
-
-    // add the sprite as a child to this layer
-    this->addChild(pSprite, 0);
-    
     return true;
 }
 
-void HelloWorld::menuCloseCallback(CCObject* pSender)
+void HelloWorld::menuCloseCallback(Object* /*sender*/)
 {
-    CCDirector::sharedDirector()->end();
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
+    Director::getInstance()->end();
 }

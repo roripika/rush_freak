@@ -1,87 +1,60 @@
-//
-//  SelectMenuScene.cpp
-//  rendaPower
-//
-//  Created by 大原幸夫 on 2014/02/23.
-//
-//
-
 #include "SelectMenuScene.h"
-#include "SimpleAudioEngine.h"
 
 #include "ShuttleScene.h"
 
-using namespace cocos2d;
-using namespace CocosDenshion;
+using namespace ax;
 
-CCScene* SelectMenuScene::scene()
+Scene* SelectMenuScene::scene()
 {
-    // 'scene' is an autorelease object
-    CCScene *scene = CCScene::create();
-    
-    // 'layer' is an autorelease object
-    SelectMenuScene *layer = SelectMenuScene::create();
-    
-    // add layer as a child to scene
-    scene->addChild(layer);
-    
-    // return the scene
+    auto* scene = Scene::create();
+    scene->addChild(SelectMenuScene::create());
     return scene;
 }
 
-// on "init" you need to initialize your instance
 bool SelectMenuScene::init()
 {
-    //////////////////////////////
-    // 1. super init first
-    bool bRet = CCLayer::init();
-    if ( false == bRet )
+    if (!Layer::init())
     {
         return false;
     }
-    
-    
-    CCSize size = CCDirector::sharedDirector()->getWinSize();
-    /* 背景 */
-    CCLayerColor *backGround = CCLayerColor::create(ccc4(255, 255, 255, 255), size.width, size.height);
-    backGround->setPosition(CCPointZero);
-    this->addChild(backGround);
 
-    //タイトル
-    CCLabelTTF * menuTitle = CCLabelTTF::create("Game Menu", "Helvetica", 40);
-    menuTitle->setColor(ccc3(255, 0, 0));
-    menuTitle->setPosition(ccp(size.width/2,size.height * 0.85f));
-    this->addChild(menuTitle);
+    const auto visibleSize = Director::getInstance()->getVisibleSize();
+    const Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    //スペースシャトルボタン
-    CCSprite *normalSprite = CCSprite::create("base/menu_space_shuttle.png");
-    CCSprite *selectSprite = CCSprite::createWithTexture(normalSprite->getTexture());
-    selectSprite->setColor(ccc3(0x7F, 0x7F, 0x7F));
-    CCMenuItem *menu_space_shuttle = CCMenuItemSprite::create(normalSprite, selectSprite);
-    menu_space_shuttle->setTarget(this, menu_selector(SelectMenuScene::ShuttleScene));
-    
-    CCMenu * StartMenu = CCMenu::create(menu_space_shuttle,NULL);
-    this->addChild(StartMenu);
-    
-    StartMenu->setPosition(CCPointZero);
-    menu_space_shuttle->setAnchorPoint(ccp(0.5f,0.5f));
-    menu_space_shuttle->setPosition(ccp(size.width/2,size.height * 0.65f));
-        
+    auto* background = LayerColor::create(Color4B::WHITE, visibleSize.width, visibleSize.height);
+    background->setPosition(origin);
+    addChild(background);
+
+    auto* menuTitle = Label::createWithSystemFont("Game Menu", "Arial", 40);
+    menuTitle->setTextColor(Color4B::RED);
+    menuTitle->setPosition(Vec2(origin.x + visibleSize.width / 2.0F,
+                                origin.y + visibleSize.height * 0.85F));
+    addChild(menuTitle);
+
+    auto* normalSprite = Sprite::create("base/menu_space_shuttle.png");
+    auto* selectedSprite = Sprite::create("base/menu_space_shuttle.png");
+    selectedSprite->setColor(Color3B(0x7F, 0x7F, 0x7F));
+
+    auto* shuttleButton = MenuItemSprite::create(
+        normalSprite,
+        selectedSprite,
+        AX_CALLBACK_1(SelectMenuScene::openShuttleScene, this));
+    shuttleButton->setPosition(Vec2(origin.x + visibleSize.width / 2.0F,
+                                    origin.y + visibleSize.height * 0.65F));
+
+    auto* menu = Menu::create(shuttleButton, nullptr);
+    menu->setPosition(Vec2::ZERO);
+    addChild(menu);
+
     return true;
 }
-/**
- * 選択画面にいく
- */
-void SelectMenuScene::ShuttleScene(CCObject*obj)
+
+void SelectMenuScene::openShuttleScene(Object* /*sender*/)
 {
-    CCDirector::sharedDirector()->replaceScene(ShuttleScene::scene());
+    Director::getInstance()->replaceScene(ShuttleScene::scene());
 }
 
-void SelectMenuScene::menuCloseCallback(CCObject* pSender)
+void SelectMenuScene::menuCloseCallback(Object* /*sender*/)
 {
-    CCDirector::sharedDirector()->end();
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
+    Director::getInstance()->end();
 }

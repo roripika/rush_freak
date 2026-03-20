@@ -1,31 +1,17 @@
-//
-//  TitleScene.h
-//  TreeTest
-//
-//  Created by ooharayukio on 2013/12/16.
-//
-//
-
 #ifndef __TreeTest__TitleScene__
 #define __TreeTest__TitleScene__
 
-#include "cocos2d.h"
+#include "axmol.h"
 
-class TitleScene : public cocos2d::CCLayer
+class TitleScene : public ax::Layer
 {
 public:
-    // Method 'init' in cocos2d-x returns bool, instead of 'id' in cocos2d-iphone (an object pointer)
-    virtual bool init();
-    
-    // there's no 'id' in cpp, so we recommend to return the class instance pointer
-    static cocos2d::CCScene* scene();
-    
-    void NextScene(CCObject*obj);
-    
-    // a selector callback
-    void menuCloseCallback(CCObject* pSender);
-    
-    // preprocessor macro for "static create()" constructor ( node() deprecated )
+    bool init() override;
+    static ax::Scene* scene();
+
+    void nextScene(ax::Object* sender);
+    void menuCloseCallback(ax::Object* sender);
+
     CREATE_FUNC(TitleScene);
 };
 

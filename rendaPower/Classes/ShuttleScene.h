@@ -1,27 +1,18 @@
-//
-//  ShuttleScene.h
-//  rendaPower
-//
-//  Created by 大原幸夫 on 2014/02/23.
-//
-//
-
 #ifndef __rendaPower__PlayScene__
 #define __rendaPower__PlayScene__
 
-#include "cocos2d.h"
+#include "axmol.h"
 
-class ShuttleScene : public cocos2d::CCLayer
+class ShuttleScene : public ax::Layer
 {
 protected:
-    cocos2d::CCSprite * m_PlanetSprite;
-    cocos2d::CCSprite * m_RocketSprite;
+    ax::Sprite* m_planetSprite = nullptr;
+    ax::Sprite* m_rocketSprite = nullptr;
+
 public:
-    static cocos2d::CCScene* scene();
-    
-    virtual bool init();
-        
-    // preprocessor macro for "static create()" constructor ( node() deprecated )
+    static ax::Scene* scene();
+    bool init() override;
+
     CREATE_FUNC(ShuttleScene);
 };
 

@@ -1,69 +1,45 @@
-//
-//  SplashScene.cpp
-//  TreeTest
-//
-//  Created by ooharayukio on 2013/12/16.
-//
-//
-
 #include "SplashScene.h"
+
 #include "TitleScene.h"
-#include "SimpleAudioEngine.h"
 
-USING_NS_CC;
-using namespace CocosDenshion;
+using namespace ax;
 
-CCScene* SplashScene::scene()
+Scene* SplashScene::scene()
 {
-    // 'scene' is an autorelease object
-    CCScene *scene = CCScene::create();
-    
-    // 'layer' is an autorelease object
-    SplashScene *layer = SplashScene::create();
-    
-    // add layer as a child to scene
-    scene->addChild(layer);
-    
-    // return the scene
+    auto* scene = Scene::create();
+    scene->addChild(SplashScene::create());
     return scene;
 }
 
-/**
- * 初期化
- */
 bool SplashScene::init()
 {
-    //////////////////////////////
-    // 1. super init first
-    if ( !CCLayer::init() )
+    if (!Layer::init())
     {
         return false;
     }
-    
-    CCSize size = CCDirector::sharedDirector()->getWinSize();
-    
-    //ロゴ
-    CCSprite* pSprite = CCSprite::create("Default-568h@2x.png");
-    pSprite->setPosition( ccp(size.width/2, size.height/2) );
-    
-    // add the sprite as a child to this layer
-    this->addChild(pSprite, 0);
-    
-    //１秒間表示
-    runAction(
-              CCSequence::create(
-                                 CCDelayTime::create(1.0f),
-                                 CCCallFunc::create(this,callfunc_selector(SplashScene::nextScene)),
-                                 NULL)
-              );
-    
+
+    const auto visibleSize = Director::getInstance()->getVisibleSize();
+    const Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    auto* splashSprite = Sprite::create("logo/Default-568h@2x.png");
+    splashSprite->setPosition(Vec2(origin.x + visibleSize.width / 2.0F,
+                                   origin.y + visibleSize.height / 2.0F));
+    addChild(splashSprite, 0);
+
+    runAction(Sequence::create(
+        DelayTime::create(1.0F),
+        CallFunc::create(AX_CALLBACK_0(SplashScene::nextScene, this)),
+        nullptr));
+
     return true;
 }
-/**
- * 次のシーンへ移動
- */
+
 void SplashScene::nextScene()
 {
-    CCDirector::sharedDirector()->replaceScene(TitleScene::scene());
+    Director::getInstance()->replaceScene(TitleScene::scene());
 }
 
+void SplashScene::menuCloseCallback(Object* /*sender*/)
+{
+    Director::getInstance()->end();
+}

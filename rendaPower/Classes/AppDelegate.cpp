@@ -1,142 +1,72 @@
-//
-//  TreeTestAppDelegate.cpp
-//  TreeTest
-//
-//  Created by ooharayukio on 2013/12/16.
-//  Copyright __MyCompanyName__ 2013年. All rights reserved.
-//
-
 #include "AppDelegate.h"
 
-#include "cocos2d.h"
-#include "SimpleAudioEngine.h"
 #include "TitleScene.h"
+#include "audio/AudioEngine.h"
 
-USING_NS_CC;
-using namespace CocosDenshion;
+using namespace ax;
 
-AppDelegate::AppDelegate()
-{
+namespace {
+constexpr int kPortraitWidth = 640;
+constexpr int kPortraitHeight = 960;
+constexpr int kLongPortraitHeight = 1136;
+} // namespace
 
-}
-
-AppDelegate::~AppDelegate()
-{
-}
+AppDelegate::AppDelegate() = default;
+AppDelegate::~AppDelegate() = default;
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
-    // initialize director
-    CCDirector *pDirector = CCDirector::sharedDirector();
-    pDirector->setOpenGLView(CCEGLView::sharedOpenGLView());
-    
-    CCEGLView * glView = CCEGLView::sharedOpenGLView();
-
-    //プラットフォーム別の設定
-    TargetPlatform platform = CCApplication::sharedApplication()->getTargetPlatform();
-    switch (platform) {
-        case cocos2d::kTargetIpad:
-            if(glView->getFrameSize().width < glView->getFrameSize().height)
-            {
-                glView->setDesignResolutionSize(640, 960, kResolutionShowAll);
-            }
-            else
-            {
-                glView->setDesignResolutionSize(960, 640, kResolutionShowAll);
-            }
-            break;
-
-        case cocos2d::kTargetAndroid:
-        {
-            bool isLong = this->isLongScreen(glView->getFrameSize().width,glView->getFrameSize().height);
-            if(glView->getFrameSize().width < glView->getFrameSize().height)
-            {
-
-                if(isLong)
-                {
-                    glView->setDesignResolutionSize(640, 1136, kResolutionShowAll);
-                }
-                else
-                {
-                    glView->setDesignResolutionSize(640, 960, kResolutionShowAll);
-                }
-            }
-            else
-            {
-                if(isLong)
-                {
-                    glView->setDesignResolutionSize(960, 640, kResolutionShowAll);
-                }
-                else
-                {
-                    glView->setDesignResolutionSize(1136, 640, kResolutionShowAll);
-                }
-            }
-        }
-        default:
-            break;
+    auto* director = Director::getInstance();
+    auto* glView = director->getOpenGLView();
+    if (glView == nullptr)
+    {
+        glView = GLViewImpl::create("Rush Freak");
+        director->setOpenGLView(glView);
     }
-    
-    
-    // turn on display FPS
-    pDirector->setDisplayStats(true);
 
-    // set FPS. the default value is 1.0/60 if you don't call this
-    pDirector->setAnimationInterval(1.0 / 60);
+    const auto frameSize = glView->getFrameSize();
+    const bool isPortrait = frameSize.width < frameSize.height;
+    const bool isLong = isLongScreen(frameSize.width, frameSize.height);
 
-    // create a scene. it's an autorelease object
-    CCScene *pScene = TitleScene::scene();
+    if (isPortrait)
+    {
+        glView->setDesignResolutionSize(
+            kPortraitWidth,
+            isLong ? kLongPortraitHeight : kPortraitHeight,
+            ResolutionPolicy::SHOW_ALL);
+    }
+    else
+    {
+        glView->setDesignResolutionSize(
+            isLong ? kLongPortraitHeight : kPortraitHeight,
+            kPortraitWidth,
+            ResolutionPolicy::SHOW_ALL);
+    }
 
-    // run
-    pDirector->runWithScene(pScene);
+    director->setDisplayStats(true);
+    director->setAnimationInterval(1.0F / 60.0F);
+    director->runWithScene(TitleScene::scene());
 
     return true;
 }
 
-// This function will be called when the app is inactive. When comes a phone call,it's be invoked too
 void AppDelegate::applicationDidEnterBackground()
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    CCDirector::sharedDirector()->stopAnimation();
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    CCDirector::sharedDirector()->pause();
-#endif
-    
-    
-#ifndef TARGET_OS_IPHONE
-    //スリープすると効果音が鳴らなくなってしまう現象に仮対応
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
-#endif
-    SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
-    SimpleAudioEngine::sharedEngine()->pauseAllEffects();
+    auto* director = Director::getInstance();
+    director->stopAnimation();
+    audio::AudioEngine::pauseAll();
 }
 
-// this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground()
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    CCDirector::sharedDirector()->startAnimation();
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    CCDirector::sharedDirector()->resume();
-#endif
-    SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
-    SimpleAudioEngine::sharedEngine()->resumeAllEffects();
+    auto* director = Director::getInstance();
+    director->startAnimation();
+    audio::AudioEngine::resumeAll();
 }
 
-bool AppDelegate::isLongScreen(float w , float h)
+bool AppDelegate::isLongScreen(float width, float height) const
 {
-    float longSize;
-    float shortSize;
-    if(w < h)
-    {
-        longSize = h;
-        shortSize = w;
-    }
-    else
-    {
-        longSize = w;
-        shortSize = h;
-    }
-    
-    return (longSize / shortSize) > 1.6f;
+    const float longSize = std::max(width, height);
+    const float shortSize = std::min(width, height);
+    return shortSize > 0.0F && (longSize / shortSize) > 1.6F;
 }
