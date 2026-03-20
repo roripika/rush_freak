@@ -1,5 +1,5 @@
-#ifndef __rendaPower__PlayScene__
-#define __rendaPower__PlayScene__
+#ifndef __rendaPower__ShuttleScene__
+#define __rendaPower__ShuttleScene__
 
 #include "axmol.h"
 
@@ -16,4 +16,4 @@ public:
     CREATE_FUNC(ShuttleScene);
 };
 
-#endif /* defined(__rendaPower__PlayScene__) */
+#endif /* defined(__rendaPower__ShuttleScene__) */

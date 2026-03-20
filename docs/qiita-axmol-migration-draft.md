@@ -123,6 +123,7 @@ void AppDelegate::initGLContextAttrs()
 ```
 
 このあたりを先に Axmol テンプレート寄りにしておくと、後で新規に作る Axmol プロジェクトへコードを戻し込むときに差分が減ります。
+また、解像度定数も portrait / landscape に引きずられない long-edge / short-edge ベースへ寄せておくと、後から見たときに意図が分かりやすいです。
 
 ---
 
@@ -170,8 +171,8 @@ audio::AudioEngine::resumeAll();
 今回の修正は、あくまで「コードを Axmol 風に置き換えた第一歩」です。
 今後は以下が必要になります。
 
-1. `axmol new` で新しいプロジェクト土台を作る
-2. 今回直した `Classes` を `Source` 側へ移し、`AppDelegate` 差分を最小化する
+1. `./scripts/bootstrap_axmol_project.sh` か `axmol new` で新しいプロジェクト土台を作る
+2. 今回直した `Classes` を `Source` 側へ移し、`Resources` を `Content` へコピーする
 3. 旧 Xcode / Android プロジェクト設定を捨てて、CMake ベースへ寄せる
 4. タッチ入力やサウンド再生を `EventListener` / `AudioEngine::play2d()` へ更新する
 5. アセットの search path と解像度戦略を整理する

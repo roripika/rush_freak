@@ -20,7 +20,7 @@
 - `CCDirector::sharedDirector()` を `Director::getInstance()` に変更。
 - `CCEGLView::sharedOpenGLView()` を `GLViewImpl` ベースの初期化に変更。
 - `kResolutionShowAll` を `ResolutionPolicy::SHOW_ALL` に変更。
-- `initGLContextAttrs()` と `registerAllPackages()` の雛形を追加し、Axmol テンプレート寄りの `AppDelegate` に整えた。
+- `initGLContextAttrs()` と `registerAllPackages()` の雛形を追加し、Axmol テンプレート寄りの `AppDelegate` に整えた。さらに解像度定数名を縦横どちらでも読みやすい long-edge / short-edge 系へ整理した。
 
 ### 2. コールバックとアクションの更新
 - `menu_selector(...)` を `AX_CALLBACK_1(...)` へ変更。
@@ -42,7 +42,8 @@
 1. Axmol テンプレート側のプロジェクト生成（CMake / platform projects）を新規に用意する。
 2. 旧 `proj.android` / `xcodeproj` は cocos2d-x 2.x 前提なので、ビルド設定は別途刷新する。
 3. 入力処理や効果音を増やす場合は `EventListenerTouchOneByOne` と `AudioEngine::play2d()` へ寄せる。
-4. 画像・フォント・解像度戦略を Axmol の asset search path で再定義する。
+4. `scripts/bootstrap_axmol_project.sh` で Axmol プロジェクト雛形を作り、`Classes` を `Source` / `Resources` を `Content` へ移す。
+5. 画像・フォント・解像度戦略を Axmol の asset search path で再定義する。
 
 ## メモ
 - 今回は「旧ゲームロジックを Axmol 記法へ寄せる」ことを優先し、ビルドシステムの全面更新までは着手していない。

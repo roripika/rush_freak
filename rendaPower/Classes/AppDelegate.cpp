@@ -8,9 +8,9 @@
 using namespace ax;
 
 namespace {
-constexpr int kPortraitWidth = 640;
-constexpr int kPortraitHeight = 960;
-constexpr int kLongPortraitHeight = 1136;
+constexpr int kShortEdge = 640;
+constexpr int kStandardLongEdge = 960;
+constexpr int kExtendedLongEdge = 1136;
 
 int registerAllPackages()
 {
@@ -45,15 +45,15 @@ bool AppDelegate::applicationDidFinishLaunching()
     if (isPortrait)
     {
         glView->setDesignResolutionSize(
-            kPortraitWidth,
-            isLong ? kLongPortraitHeight : kPortraitHeight,
+            kShortEdge,
+            isLong ? kExtendedLongEdge : kStandardLongEdge,
             ResolutionPolicy::SHOW_ALL);
     }
     else
     {
         glView->setDesignResolutionSize(
-            isLong ? kLongPortraitHeight : kPortraitHeight,
-            kPortraitWidth,
+            isLong ? kExtendedLongEdge : kStandardLongEdge,
+            kShortEdge,
             ResolutionPolicy::SHOW_ALL);
     }
 
