@@ -20,6 +20,7 @@
 - `CCDirector::sharedDirector()` を `Director::getInstance()` に変更。
 - `CCEGLView::sharedOpenGLView()` を `GLViewImpl` ベースの初期化に変更。
 - `kResolutionShowAll` を `ResolutionPolicy::SHOW_ALL` に変更。
+- `initGLContextAttrs()` と `registerAllPackages()` の雛形を追加し、Axmol テンプレート寄りの `AppDelegate` に整えた。
 
 ### 2. コールバックとアクションの更新
 - `menu_selector(...)` を `AX_CALLBACK_1(...)` へ変更。
@@ -45,4 +46,5 @@
 
 ## メモ
 - 今回は「旧ゲームロジックを Axmol 記法へ寄せる」ことを優先し、ビルドシステムの全面更新までは着手していない。
+- ただし `AppDelegate` は Axmol テンプレートで見かける `initGLContextAttrs()` などの雛形も足し、後続の新規プロジェクト移植で流用しやすくした。
 - Qiita 記事では「全部一気に直さず、まず `Classes` をコンパイルしやすい形へ寄せる」流れを書くと再現性が高い。

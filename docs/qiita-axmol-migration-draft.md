@@ -108,6 +108,24 @@ CallFunc::create(AX_CALLBACK_0(SplashScene::nextScene, this));
 
 ---
 
+## `AppDelegate` を Axmol テンプレート寄りに寄せる
+古いプロジェクトを移植するとき、シーンより先に `AppDelegate` でハマることも多いです。
+
+今回は最低限の source-level 置換だけでなく、**`initGLContextAttrs()` と `registerAllPackages()` の雛形も追加**しました。
+
+```cpp
+void AppDelegate::initGLContextAttrs()
+{
+    GLContextAttrs glContextAttrs = {8, 8, 8, 8, 24, 8, 0};
+    glContextAttrs.vsync = true;
+    GLView::setGLContextAttrs(glContextAttrs);
+}
+```
+
+このあたりを先に Axmol テンプレート寄りにしておくと、後で新規に作る Axmol プロジェクトへコードを戻し込むときに差分が減ります。
+
+---
+
 ## オーディオは `SimpleAudioEngine` から一旦卒業
 古い cocos2d-x プロジェクトでは `SimpleAudioEngine` を使っていることが多いですが、Axmol では `AudioEngine` を使う方が自然です。
 
@@ -152,10 +170,11 @@ audio::AudioEngine::resumeAll();
 今回の修正は、あくまで「コードを Axmol 風に置き換えた第一歩」です。
 今後は以下が必要になります。
 
-1. Axmol のテンプレートから新しいプロジェクト土台を作る
-2. 旧 Xcode / Android プロジェクト設定を捨てて、CMake ベースへ寄せる
-3. タッチ入力やサウンド再生を `EventListener` / `AudioEngine::play2d()` へ更新する
-4. アセットの search path と解像度戦略を整理する
+1. `axmol new` で新しいプロジェクト土台を作る
+2. 今回直した `Classes` を `Source` 側へ移し、`AppDelegate` 差分を最小化する
+3. 旧 Xcode / Android プロジェクト設定を捨てて、CMake ベースへ寄せる
+4. タッチ入力やサウンド再生を `EventListener` / `AudioEngine::play2d()` へ更新する
+5. アセットの search path と解像度戦略を整理する
 
 ---
 

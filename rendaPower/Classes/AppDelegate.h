@@ -9,6 +9,7 @@ public:
     AppDelegate();
     ~AppDelegate() override;
 
+    void initGLContextAttrs() override;
     bool applicationDidFinishLaunching() override;
     void applicationDidEnterBackground() override;
     void applicationWillEnterForeground() override;
