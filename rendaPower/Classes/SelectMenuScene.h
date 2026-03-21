@@ -2,7 +2,7 @@
 //  SelectMenuScene.h
 //  rendaPower
 //
-//  Created by 大原幸夫 on 2014/02/23.
+//  Created by roripika on 2014/02/23.
 //
 //
 

@@ -2,7 +2,7 @@
 //  ScoreLayer.h
 //  rendaPower
 //
-//  Created by ooharayukio on 2014/06/02.
+//  Created by roripika on 2014/06/02.
 //
 //
 

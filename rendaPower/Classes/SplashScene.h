@@ -2,7 +2,7 @@
 //  SplashScene.h
 //  TreeTest
 //
-//  Created by ooharayukio on 2013/12/16.
+//  Created by roripika on 2013/12/16.
 //
 //
 

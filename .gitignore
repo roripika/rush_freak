@@ -1,16 +1,61 @@
-# シャープで始めるとコメント行になる
+# Ignore thumbnails created by windows
+Thumbs.db
 
-*/proj.android/assets/
-
-*/proj.android/*/*.o
-
-*.xcworkspacedata
-*.xcuserdatad
-project.xcworkspace
-
-*.settings
-
-assets/
+# Build artifacts
+build/
+build_*/
+out/
+out*/
 bin/
-gen/
 obj/
+[Dd]ebug/
+[Rr]elease/
+*.o
+*.obj
+*.exe
+*.pdb
+*.ilk
+*.log
+*.cache
+
+# Xcode
+*.mode*v*
+*.pbxuser
+*.xcbkptlist
+*.xcworkspacedata
+*.xcuserstate
+*.xccheckout
+xcschemesmanagement.plist
+IDEWorkspaceChecks.plist
+.DS_Store
+._.*
+userdata/
+DerivedData/
+*.xcscmblueprint
+
+# VS Code
+.vscode/
+
+# Project files
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+CMakeLists.txt.user
+CMakeSettings.json
+
+# Temporary files
+tmp/
+temp/
+*.zip
+*.apk
+*.keystore
+
+# Local config
+local.properties
+.idea/
+.vs/
+*.VC.db
+ipch/
+*.opensdf
+*.opendb

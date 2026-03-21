@@ -2,7 +2,7 @@
 //  SmorkManager.h
 //  rendaPower
 //
-//  Created by ooharayukio on 2014/05/31.
+//  Created by roripika on 2014/05/31.
 //
 //
 
